@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scenes:
   - Path: Assets/Scenes/Sandbox.unity
-    Projects: []
+    Projects:
+    - ProjectPath: Needle/newProject
     BuilderScene: 
-  Projects: []
+  Projects:
+  - ProjectPath: Needle/newProject
