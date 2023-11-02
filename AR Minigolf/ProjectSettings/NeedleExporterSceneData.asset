@@ -17,5 +17,17 @@ MonoBehaviour:
     Projects:
     - ProjectPath: Needle/newProject
     BuilderScene: 
+  - Path: Assets/Scenes/ImageTrackingSample.unity
+    Projects:
+    - ProjectPath: Library/Needle/Sample
+    BuilderScene: 
+  - Path: Assets/Scenes/AR Minigolf.unity
+    Projects:
+    - ProjectPath: Library/Needle/Sample
+    BuilderScene: 
+  - Path: Assets/Scenes/SampleScene.unity
+    Projects: []
+    BuilderScene: 
   Projects:
   - ProjectPath: Needle/newProject
+  - ProjectPath: Library/Needle/Sample
