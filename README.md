@@ -11,3 +11,6 @@ Goal Marker:
 Start Marker:
 
 ![start_marker](https://github.com/MarcelBlasius/AR_Minigolf/assets/64688032/6e31c7b9-c94d-4e15-9768-72d311ed8101)
+
+Assets:
+https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
