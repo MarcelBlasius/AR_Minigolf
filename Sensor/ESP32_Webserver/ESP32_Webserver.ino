@@ -14,6 +14,7 @@ const char* password = WIFI_PASSWD;
 Adafruit_MPU6050 mpu;
 float gyroX, gyroY, gyroZ;
 float accX, accY, accZ;
+JSONVar readings;
 
 void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) {
   //Handle WebSocket event
