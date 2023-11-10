@@ -1,9 +1,9 @@
 #include "WiFiCredentials.h"
 #include "ESPAsyncTCP.h"
 #include "ESPAsyncWebServer.h"
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
-#include <Arduino_JSON.h>
+#include "Adafruit_MPU6050.h"
+#include "Adafruit_Sensor.h"
+#include "Arduino_JSON.h"
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
@@ -31,8 +31,8 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
       break;
     case WS_EVT_DATA:
       //data package
-      ws.textAll(getGyroReadings);
-      ws.textAll(getAccReadings);
+      ws.textAll(getGyroReadings());
+      ws.textAll(getAccReadings());
       break;
     default:
       os_printf("ws[%s][%u] Error\n", server->url(), client->id());
