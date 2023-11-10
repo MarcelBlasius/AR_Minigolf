@@ -3,9 +3,14 @@
 #include "ESPAsyncWebServer.h"
 
 AsyncWebServer server(80);
+AsyncWebSocket ws("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
 
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWD;
+
+void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len){
+  //Handle WebSocket event
+}
 
 void setup() {
   Serial.begin(115200);
@@ -18,9 +23,4 @@ void setup() {
   }
 
   server.begin();
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
 }
