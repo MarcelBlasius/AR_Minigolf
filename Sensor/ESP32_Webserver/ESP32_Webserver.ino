@@ -11,13 +11,32 @@ AsyncWebSocket ws("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWD;
 
-Adafruit_MPU6050 mpu;
+Adafruit_MPU6050 sensor;
+sensors_event_t a, g, temp;
 float gyroX, gyroY, gyroZ;
 float accX, accY, accZ;
 JSONVar readings;
 
 void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) {
-  //Handle WebSocket event
+  switch(type) {
+    case WS_EVT_CONNECT: 
+      //client connected
+      os_printf("ws[%s][%u] connect\n", server->url(), client->id());
+      client->printf("Hello Client %u :)", client->id());
+      client->ping();
+      break;
+    case WS_EVT_DISCONNECT:
+      //client disconnected
+      os_printf("ws[%s][%u] disconnect: %u\n", server->url(), client->id());
+      break;
+    case WS_EVT_DATA:
+      ws.textAll(getGyroReadings);
+      ws.textAll(getAccReadings);
+      break;
+    default:
+      printf("a ist irgendwas\n");
+      break;
+  }
 }
 
 void initWiFi() {
@@ -29,7 +48,7 @@ void initWiFi() {
   }
 }
 
-void initMPU(){
+void initSensor() {
   if (!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");
     while (1) {
@@ -70,6 +89,8 @@ String getAccReadings() {
 void setup() {
   Serial.begin(115200);
   initWiFi();
-  initMPU();
+  initSensor();
+  ws.onEvent(onEvent);
+  server.addHandler(&ws);
   server.begin();
 }
