@@ -34,13 +34,11 @@ export class ResetButton extends Behaviour implements IPointerClickHandler {
             return;
         }
 
+        this.object.visible = true;
         const refWorldPos = new Vector3();
         this.reference.getWorldPosition(refWorldPos);
-
-        this.object.position.x = refWorldPos.x;
-        this.object.position.y = refWorldPos.y + this.object.scale.y * 0.55;
-        this.object.position.z = refWorldPos.z;
-        this.object.visible = true;
+        this.body?.teleport({ x: refWorldPos.x, y: refWorldPos.y + this.object.scale.y * 0.55, z: refWorldPos.z }, false)
+        this.object.setRotationFromEuler(this.reference.rotation);
 
         await requestOwnership(this._sync);
     }

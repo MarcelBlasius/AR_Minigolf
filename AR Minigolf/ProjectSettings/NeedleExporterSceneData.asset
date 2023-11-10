@@ -28,6 +28,10 @@ MonoBehaviour:
   - Path: Assets/Scenes/SampleScene.unity
     Projects: []
     BuilderScene: 
+  - Path: Assets/Scenes/AR Minigolf 1.unity
+    Projects:
+    - ProjectPath: Needle/newProject
+    BuilderScene: 
   Projects:
   - ProjectPath: Needle/newProject
   - ProjectPath: Library/Needle/Sample
