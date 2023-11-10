@@ -30,11 +30,12 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
       os_printf("ws[%s][%u] disconnect: %u\n", server->url(), client->id());
       break;
     case WS_EVT_DATA:
+      //data package
       ws.textAll(getGyroReadings);
       ws.textAll(getAccReadings);
       break;
     default:
-      printf("a ist irgendwas\n");
+      os_printf("ws[%s][%u] Error\n", server->url(), client->id());
       break;
   }
 }
