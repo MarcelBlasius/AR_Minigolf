@@ -10,7 +10,8 @@
   },
   "dependencies": {
 	  "@needle-tools/engine": "^3.22.0",
-	  "three": "npm:@needle-tools/three@^0.154.3"
+	  "three": "npm:@needle-tools/three@^0.154.3",
+	  "@needle-tools/samples-scripts": "file:./../../Library/PackageCache/com.needle.engine-samples@0.12.0/Runtime/_Shared/SampleScripts~"
 	},
   "devDependencies": {
 	  "@needle-tools/helper": "^1.6.0",
