@@ -13,3 +13,4 @@ Start Marker:
 
 Assets:
 https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
+https://assetstore.unity.com/packages/3d/props/lowpoly-training-dummy-202311
