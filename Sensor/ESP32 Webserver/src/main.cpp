@@ -1,5 +1,7 @@
 #include "WiFiCredentials.h"
-#include "ESPAsyncTCP.h"
+#include "Arduino.h"
+#include "WiFi.h"
+#include "AsyncTCP.h"
 #include "ESPAsyncWebServer.h"
 #include "Adafruit_MPU6050.h"
 #include "Adafruit_Sensor.h"
@@ -17,29 +19,6 @@ float gyroX, gyroY, gyroZ;
 float accX, accY, accZ;
 JSONVar readings;
 
-void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) {
-  switch(type) {
-    case WS_EVT_CONNECT: 
-      //client connected
-      os_printf("ws[%s][%u] connect\n", server->url(), client->id());
-      client->printf("Hello Client %u :)", client->id());
-      client->ping();
-      break;
-    case WS_EVT_DISCONNECT:
-      //client disconnected
-      os_printf("ws[%s][%u] disconnect: %u\n", server->url(), client->id());
-      break;
-    case WS_EVT_DATA:
-      //data package
-      ws.textAll(getGyroReadings());
-      ws.textAll(getAccReadings());
-      break;
-    default:
-      os_printf("ws[%s][%u] Error\n", server->url(), client->id());
-      break;
-  }
-}
-
 void initWiFi() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -50,7 +29,7 @@ void initWiFi() {
 }
 
 void initSensor() {
-  if (!mpu.begin()) {
+  if (!sensor.begin()) {
     Serial.println("Failed to find MPU6050 chip");
     while (1) {
       delay(10);
@@ -60,7 +39,7 @@ void initSensor() {
 }
 
 String getGyroReadings() {
-  mpu.getEvent(&a, &g, &temp);
+  sensor.getEvent(&a, &g, &temp);
 
   float gyroX = g.gyro.x;
   float gyroY = g.gyro.y;
@@ -74,7 +53,7 @@ String getGyroReadings() {
 }
 
 String getAccReadings() {
-  mpu.getEvent(&a, &g, &temp);
+  sensor.getEvent(&a, &g, &temp);
 
   float accX = a.acceleration.x;
   float accY = a.acceleration.y;
@@ -87,6 +66,27 @@ String getAccReadings() {
   return JSON.stringify (readings);
 }
 
+void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) {
+  switch(type) {
+    case WS_EVT_CONNECT: 
+      //client connected
+      client->printf("Hello Client %u :)", client->id());
+      client->ping();
+      break;
+    case WS_EVT_DISCONNECT:
+      //client disconnected
+      
+      break;
+    case WS_EVT_DATA:
+      //data package
+      ws.textAll(getGyroReadings());
+      ws.textAll(getAccReadings());
+      break;
+    default:
+      break;
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   initWiFi();
@@ -94,4 +94,8 @@ void setup() {
   ws.onEvent(onEvent);
   server.addHandler(&ws);
   server.begin();
+}
+
+void loop() {
+  
 }
