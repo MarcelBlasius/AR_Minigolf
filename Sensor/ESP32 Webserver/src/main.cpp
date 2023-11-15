@@ -6,6 +6,7 @@
 #include "Adafruit_MPU6050.h"
 #include "Adafruit_Sensor.h"
 #include "Arduino_JSON.h"
+#include "SPIFFS.h"
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
@@ -26,6 +27,7 @@ void initWiFi() {
     Serial.printf("WiFi Failed!\n");
     return;
   }
+  Serial.println(WiFi.localIP());
 }
 
 void initSensor() {
@@ -38,49 +40,64 @@ void initSensor() {
   Serial.println("MPU6050 Found!");
 }
 
-String getGyroReadings() {
-  sensor.getEvent(&a, &g, &temp);
+void initSPIFFS() {
+  if (!SPIFFS.begin()) {
+    Serial.println("An error has occurred while mounting SPIFFS");
+  }
+  Serial.println("SPIFFS mounted successfully");
+}
 
-  float gyroX = g.gyro.x;
-  float gyroY = g.gyro.y;
-  float gyroZ = g.gyro.z;
+String getSensorReadings() {
+  //sensor.getEvent(&a, &g, &temp);
 
+  // float accX = a.acceleration.x;
+  // float accY = a.acceleration.y;
+  // float accZ = a.acceleration.z;
+
+  // float gyroX = g.gyro.x;
+  // float gyroY = g.gyro.y;
+  // float gyroZ = g.gyro.z;
+
+  float accX = 0.5;
+  float accY = 1.5;
+  float accZ = 2.5;
+
+  float gyroX = 3.5;
+  float gyroY = 4.5;
+  float gyroZ = 5.5;
+  
+  readings["accX"] = String(accX);
+  readings["accY"] = String(accY);
+  readings["accZ"] = String(accZ);
   readings["gyroX"] = String(gyroX);
   readings["gyroY"] = String(gyroY);
   readings["gyroZ"] = String(gyroZ);
 
-  return JSON.stringify(readings);
-}
-
-String getAccReadings() {
-  sensor.getEvent(&a, &g, &temp);
-
-  float accX = a.acceleration.x;
-  float accY = a.acceleration.y;
-  float accZ = a.acceleration.z;
-
-  readings["accX"] = String(accX);
-  readings["accY"] = String(accY);
-  readings["accZ"] = String(accZ);
-
   return JSON.stringify (readings);
 }
+
+void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
+  AwsFrameInfo *info = (AwsFrameInfo*)arg;
+  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
+    if (strcmp((char*)data, "getSensorReadings") == 0) {
+      ws.textAll(getSensorReadings());
+    }
+  }
+}
+
 
 void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) {
   switch(type) {
     case WS_EVT_CONNECT: 
-      //client connected
-      client->printf("Hello Client %u :)", client->id());
+      client->printf("Hello Client %u", client->id());
       client->ping();
       break;
-    case WS_EVT_DISCONNECT:
-      //client disconnected
-      
+    case WS_EVT_DISCONNECT:   
+      client->printf("Bye Client %u", client->id());  
       break;
     case WS_EVT_DATA:
-      //data package
-      ws.textAll(getGyroReadings());
-      ws.textAll(getAccReadings());
+      client->printf("Sensor request received by client %u", client->id());
+      handleWebSocketMessage(arg, data, len);
       break;
     default:
       break;
@@ -90,12 +107,17 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
 void setup() {
   Serial.begin(115200);
   initWiFi();
-  initSensor();
+  initSPIFFS();
+  //initSensor();
   ws.onEvent(onEvent);
   server.addHandler(&ws);
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/index.html", "text/html");
+  });
+  server.serveStatic("/", SPIFFS, "/");
   server.begin();
 }
 
 void loop() {
-  
+  ws.cleanupClients();
 }
