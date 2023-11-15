@@ -23,6 +23,7 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
             return;
         }
 
+
         const velo = this.body.getVelocity();
         if (velo.x + velo.y + velo.z < 0.01) {
             this.shot = false;
