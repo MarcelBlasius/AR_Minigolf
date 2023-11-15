@@ -24,9 +24,10 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
             return;
         }
 
+
         this.force = new Vector3(0.95 * this.force.x, 0.95 * this.force.y, 0.95 * this.force.z)
         this.body?.setForce(this.force.x, this.force.y, this.force.z)
-        if (this.force.x + this.force.y + this.force.z < 0.02) {
+        if (this.force.x + this.force.y + this.force.z < 0.2) {
             this.shot = false;
         }
     }

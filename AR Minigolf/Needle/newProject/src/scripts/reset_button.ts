@@ -24,22 +24,29 @@ export class ResetButton extends Behaviour implements IPointerClickHandler {
     }
 
     async onPointerClick(_args: PointerEventData) {
-        console.log('click registered')
         if (!this.object) {
             console.error('object is undefined')
             return;
         }
-        if (!this.reference) {
+        if (!this.reference || !this.body) {
             console.error('Reference object is undefined');
             return;
         }
 
         this.object.visible = true;
+        const velo = this.body.getVelocity();
+        if (velo.x > 0 || velo.y > 0 || velo.z > 0){
+            console.log('can not reset a ball that is in movement');
+            return;
+        }
+
+        console.log('Resetting ball');
+
         const refWorldPos = new Vector3();
         this.reference.getWorldPosition(refWorldPos);
         this.body?.teleport({ x: refWorldPos.x, y: refWorldPos.y + this.object.scale.y * 0.55, z: refWorldPos.z }, false)
-        this.object.setRotationFromEuler(this.reference.rotation);
 
+        this.object.setRotationFromEuler(this.reference.rotation);
         await requestOwnership(this._sync);
     }
 }

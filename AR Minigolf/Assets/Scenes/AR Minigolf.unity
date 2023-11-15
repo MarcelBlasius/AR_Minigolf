@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45040476, g: 0.49819732, b: 0.5633183, a: 1}
+  m_IndirectSpecularColor: {r: 0.45040447, g: 0.49819708, b: 0.5633182, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -961,13 +961,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000573578}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.4, y: 0.2, z: 25.1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0.4, y: 0.2, z: -25.4}
   m_LocalScale: {x: 7.616346, y: 7.6163464, z: 7.6163464}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1047117173}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!114 &1000573580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,7 +1219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &1052584589
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1345,8 +1345,8 @@ Rigidbody:
   m_GameObject: {fileID: 1052584588}
   serializedVersion: 4
   m_Mass: 10
-  m_Drag: 50
-  m_AngularDrag: 0.05
+  m_Drag: 250
+  m_AngularDrag: 250
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1430,7 +1430,7 @@ Transform:
   m_GameObject: {fileID: 1483387531}
   serializedVersion: 2
   m_LocalRotation: {x: -0.13871288, y: 0.28233197, z: -0.0034357975, w: 0.94922894}
-  m_LocalPosition: {x: 0.748, y: 0.647, z: 2.142}
+  m_LocalPosition: {x: 1.292, y: 0.592, z: 1.796}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
