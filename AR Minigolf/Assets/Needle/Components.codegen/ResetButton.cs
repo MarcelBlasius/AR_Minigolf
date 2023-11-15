@@ -10,8 +10,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.GameObject @reference;
 		public UnityEngine.GameObject @object;
 		public UnityEngine.Rigidbody @body;
-		public Needle.Engine.Components.SyncedTransform @_sync;
-		public void start(){}
 		public void onPointerClick(UnityEngine.EventSystems.PointerEventData @_args){}
 	}
 }

@@ -11,18 +11,6 @@ export class ResetButton extends Behaviour implements IPointerClickHandler {
     @serializeable(Rigidbody)
     body?: Rigidbody;
 
-    _sync: SyncedTransform | undefined;
-
-    start(): void {
-        if (!this.object) {
-            console.error('object is undefined')
-            return;
-        }
-
-        this._sync = GameObject.getComponent(this.object, SyncedTransform) ?? undefined;
-        this._sync?.requestOwnership();
-    }
-
     async onPointerClick(_args: PointerEventData) {
         console.log('click registered')
         if (!this.object) {
@@ -40,6 +28,6 @@ export class ResetButton extends Behaviour implements IPointerClickHandler {
         this.body?.teleport({ x: refWorldPos.x, y: refWorldPos.y + this.object.scale.y * 0.55, z: refWorldPos.z }, false)
         this.object.setRotationFromEuler(this.reference.rotation);
 
-        await requestOwnership(this._sync);
+        this.body?.setVelocity(0, 0, 0);
     }
 }

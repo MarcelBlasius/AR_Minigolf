@@ -6,7 +6,7 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
 
     shot: boolean = false;
     force: Vector3 = new Vector3();
-    power = 1;
+    power = 5;
 
     @serializable(Object3D)
     object?: Object3D;
@@ -14,19 +14,17 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
     @serializable(Rigidbody)
     body?: Rigidbody
 
-    _sync: SyncedTransform | undefined;
-
-    start(): void {
-        this._sync = GameObject.getComponent(this.gameObject, SyncedTransform) ?? undefined;
-    }
     update(): void {
+        if (!this.body) {
+            console.error('object is undefined')
+            return;
+        }
         if (!this.shot) {
             return;
         }
 
-        this.force = new Vector3(0.95 * this.force.x, 0.95 * this.force.y, 0.95 * this.force.z)
-        this.body?.setForce(this.force.x, this.force.y, this.force.z)
-        if (this.force.x + this.force.y + this.force.z < 0.02) {
+        const velo = this.body.getVelocity();
+        if (velo.x + velo.y + velo.z < 0.01) {
             this.shot = false;
         }
     }
@@ -37,14 +35,12 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
             return;
         }
 
-        await requestOwnership(this._sync);
-
         let direction = new Vector3();
         this.object.getWorldDirection(direction);
         direction = direction.normalize();
 
-        this.force = new Vector3(this.power * direction.x, this.power * direction.y, this.power * direction.z);
-        this.body?.applyForce(this.force);
+        this.force = new Vector3(this.power * direction.x, 0, this.power * direction.z);
+        this.body?.setVelocity(this.force);
         this.shot = true;
     }
 }
