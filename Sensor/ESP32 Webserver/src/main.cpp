@@ -8,6 +8,9 @@
 #include "Arduino_JSON.h"
 #include "SPIFFS.h"
 
+#define BUTTON_PIN 19
+#define DEBOUNCE_TIME 100
+
 AsyncWebServer server(80);
 AsyncEventSource sensorReadings("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
 
@@ -21,6 +24,12 @@ float accX, accY, accZ;
 JSONVar readings;
 unsigned long lastTime = 0;
 unsigned long timerDelay = 1000;
+
+int lastSteadyState = LOW;       
+int lastFlickerableState = LOW; 
+int currentState;                
+
+unsigned long lastDebounceTime = 0;
 
 void initWiFi() {
   WiFi.mode(WIFI_STA);
@@ -72,6 +81,7 @@ String getSensorReadings() {
 
 void setup() {
   Serial.begin(115200);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
   initWiFi();
   initSPIFFS();
   initSensor();
@@ -93,8 +103,20 @@ void setup() {
 }
 
 void loop() {
-  if ((millis() - lastTime) > timerDelay) {
-    sensorReadings.send(getSensorReadings().c_str(),"readings",millis());
-    lastTime = millis();
+
+  currentState  = digitalRead(BUTTON_PIN);
+
+  if (currentState != lastFlickerableState) {
+    lastDebounceTime = millis();
+    lastFlickerableState = currentState;
+  }
+
+  if ((millis() - lastDebounceTime) > DEBOUNCE_TIME) {
+   
+    if(lastSteadyState == HIGH && currentState == LOW) {
+      sensorReadings.send(getSensorReadings().c_str(),"readings",millis());
+      lastTime = millis();
+    }
+    lastSteadyState = currentState;
   }
 }
