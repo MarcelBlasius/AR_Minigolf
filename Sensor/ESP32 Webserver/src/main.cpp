@@ -8,11 +8,13 @@
 #include "Arduino_JSON.h"
 #include "SPIFFS.h"
 
-#define BUTTON_PIN 19
+#define BUTTON_PIN_SENSOR 19
+#define BUTTON_PIN_RESET 18
 #define DEBOUNCE_TIME 100
 
 AsyncWebServer server(80);
-AsyncEventSource sensorReadings("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
+AsyncEventSource sensorReadings("/SensorReadings");
+AsyncEventSource reset("/Reset");
 
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWD;
@@ -22,14 +24,16 @@ sensors_event_t a, g, temp;
 float gyroX, gyroY, gyroZ;
 float accX, accY, accZ;
 JSONVar readings;
-unsigned long lastTime = 0;
-unsigned long timerDelay = 1000;
 
-int lastSteadyState = LOW;       
-int lastFlickerableState = LOW; 
-int currentState;                
+int lastSteadyStateSensor = LOW;       
+int lastFlickerableStateSensor = LOW; 
+int currentStateSensor;                
+unsigned long lastDebounceTimeSensor = 0;
 
-unsigned long lastDebounceTime = 0;
+int lastSteadyStateReset = LOW;       
+int lastFlickerableStateReset = LOW; 
+int currentStateReset;                
+unsigned long lastDebounceTimeReset = 0;
 
 void initWiFi() {
   WiFi.mode(WIFI_STA);
@@ -81,7 +85,8 @@ String getSensorReadings() {
 
 void setup() {
   Serial.begin(115200);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_PIN_SENSOR, INPUT_PULLUP);
+  pinMode(BUTTON_PIN_RESET, INPUT_PULLUP);
   initWiFi();
   initSPIFFS();
   initSensor();
@@ -98,25 +103,46 @@ void setup() {
     client->send("Hello Client.", NULL, millis(), 10000);
   });
 
+  reset.onConnect([](AsyncEventSourceClient *client){
+    if(client->lastId()){
+      Serial.printf("Client reconnected. Last message ID that it got is: %u\n", client->lastId());
+    }
+    client->send("Hello Client.", NULL, millis(), 10000);
+  });
+
   server.addHandler(&sensorReadings);
+  server.addHandler(&reset);
   server.begin();
 }
 
 void loop() {
 
-  currentState  = digitalRead(BUTTON_PIN);
+  currentStateSensor  = digitalRead(BUTTON_PIN_SENSOR);
+  currentStateReset  = digitalRead(BUTTON_PIN_RESET);
 
-  if (currentState != lastFlickerableState) {
-    lastDebounceTime = millis();
-    lastFlickerableState = currentState;
+  if (currentStateSensor != lastFlickerableStateSensor) {
+    lastDebounceTimeSensor = millis();
+    lastFlickerableStateSensor = currentStateSensor;
   }
 
-  if ((millis() - lastDebounceTime) > DEBOUNCE_TIME) {
+  if (currentStateReset != lastFlickerableStateReset) {
+    lastDebounceTimeReset = millis();
+    lastFlickerableStateReset = currentStateReset;
+  }
+
+  if ((millis() - lastDebounceTimeSensor) > DEBOUNCE_TIME) {
    
-    if(lastSteadyState == HIGH && currentState == LOW) {
+    if(lastSteadyStateSensor == HIGH && currentStateSensor == LOW) {
       sensorReadings.send(getSensorReadings().c_str(),"readings",millis());
-      lastTime = millis();
     }
-    lastSteadyState = currentState;
+    lastSteadyStateSensor = currentStateSensor;
+  }
+
+  if ((millis() - lastDebounceTimeReset) > DEBOUNCE_TIME) {
+   
+    if(lastSteadyStateReset == HIGH && currentStateReset == LOW) {
+      reset.send("reset","reset",millis());
+    }
+    lastSteadyStateReset = currentStateReset;
   }
 }
