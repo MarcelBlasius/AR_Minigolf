@@ -9,7 +9,7 @@
 #include "SPIFFS.h"
 
 AsyncWebServer server(80);
-AsyncWebSocket ws("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
+AsyncEventSource sensorReadings("/SensorReadings"); // access at ws://[esp ip]/SensorReadings
 
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWD;
@@ -19,6 +19,8 @@ sensors_event_t a, g, temp;
 float gyroX, gyroY, gyroZ;
 float accX, accY, accZ;
 JSONVar readings;
+unsigned long lastTime = 0;
+unsigned long timerDelay = 1000;
 
 void initWiFi() {
   WiFi.mode(WIFI_STA);
@@ -57,14 +59,6 @@ String getSensorReadings() {
   float gyroX = g.gyro.x;
   float gyroY = g.gyro.y;
   float gyroZ = g.gyro.z;
-
-  // float accX = 0.5;
-  // float accY = 1.5;
-  // float accZ = 2.5;
-
-  // float gyroX = 3.5;
-  // float gyroY = 4.5;
-  // float gyroZ = 5.5;
   
   readings["accX"] = String(accX);
   readings["accY"] = String(accY);
@@ -76,48 +70,31 @@ String getSensorReadings() {
   return JSON.stringify (readings);
 }
 
-void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
-  AwsFrameInfo *info = (AwsFrameInfo*)arg;
-  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
-    if (strcmp((char*)data, "getSensorReadings") == 0) {
-      ws.textAll(getSensorReadings());
-    }
-  }
-}
-
-
-void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) {
-  switch(type) {
-    case WS_EVT_CONNECT: 
-      client->printf("Hello Client %u", client->id());
-      client->ping();
-      break;
-    case WS_EVT_DISCONNECT:   
-      client->printf("Bye Client %u", client->id());  
-      break;
-    case WS_EVT_DATA:
-      client->printf("Sensor request received by client %u", client->id());
-      handleWebSocketMessage(arg, data, len);
-      break;
-    default:
-      break;
-  }
-}
-
 void setup() {
   Serial.begin(115200);
   initWiFi();
   initSPIFFS();
   initSensor();
-  ws.onEvent(onEvent);
-  server.addHandler(&ws);
+
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index.html", "text/html");
   });
   server.serveStatic("/", SPIFFS, "/");
+
+  sensorReadings.onConnect([](AsyncEventSourceClient *client){
+    if(client->lastId()){
+      Serial.printf("Client reconnected. Last message ID that it got is: %u\n", client->lastId());
+    }
+    client->send("Hello Client.", NULL, millis(), 10000);
+  });
+
+  server.addHandler(&sensorReadings);
   server.begin();
 }
 
 void loop() {
-  ws.cleanupClients();
+  if ((millis() - lastTime) > timerDelay) {
+    sensorReadings.send(getSensorReadings().c_str(),"readings",millis());
+    lastTime = millis();
+  }
 }
