@@ -48,23 +48,23 @@ void initSPIFFS() {
 }
 
 String getSensorReadings() {
-  //sensor.getEvent(&a, &g, &temp);
+  sensor.getEvent(&a, &g, &temp);
 
-  // float accX = a.acceleration.x;
-  // float accY = a.acceleration.y;
-  // float accZ = a.acceleration.z;
+  float accX = a.acceleration.x;
+  float accY = a.acceleration.y;
+  float accZ = a.acceleration.z;
 
-  // float gyroX = g.gyro.x;
-  // float gyroY = g.gyro.y;
-  // float gyroZ = g.gyro.z;
+  float gyroX = g.gyro.x;
+  float gyroY = g.gyro.y;
+  float gyroZ = g.gyro.z;
 
-  float accX = 0.5;
-  float accY = 1.5;
-  float accZ = 2.5;
+  // float accX = 0.5;
+  // float accY = 1.5;
+  // float accZ = 2.5;
 
-  float gyroX = 3.5;
-  float gyroY = 4.5;
-  float gyroZ = 5.5;
+  // float gyroX = 3.5;
+  // float gyroY = 4.5;
+  // float gyroZ = 5.5;
   
   readings["accX"] = String(accX);
   readings["accY"] = String(accY);
@@ -108,7 +108,7 @@ void setup() {
   Serial.begin(115200);
   initWiFi();
   initSPIFFS();
-  //initSensor();
+  initSensor();
   ws.onEvent(onEvent);
   server.addHandler(&ws);
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
