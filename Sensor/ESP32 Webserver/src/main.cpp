@@ -11,6 +11,9 @@
 #define BUTTON_PIN_SENSOR 19
 #define BUTTON_PIN_RESET 18
 #define DEBOUNCE_TIME 100
+#define MAX_SWING_TIME 10000
+#define MIN_ACC 10
+#define EARLIST_SWING_FINISH 5000
 
 AsyncWebServer server(80);
 AsyncEventSource sensorReadings("/SensorReadings");
@@ -72,9 +75,33 @@ String getSensorReadings() {
   float gyroX = g.gyro.x;
   float gyroY = g.gyro.y;
   float gyroZ = g.gyro.z;
+
+  float maxAccX = 0;
+  float maxAccY = 0;
+
+  unsigned long starttime = millis();
+  unsigned long endtime = starttime;
+
+  while((endtime - starttime) <= MAX_SWING_TIME) {
+    sensor.getEvent(&a, &g, &temp);
+
+    if((a.acceleration.x < MIN_ACC && (endtime - starttime) >  EARLIST_SWING_FINISH) || (a.acceleration.y < MIN_ACC && (endtime - starttime) >  EARLIST_SWING_FINISH)) {
+      break;
+    }
+
+    if(a.acceleration.x > maxAccX) {
+      maxAccX = a.acceleration.x;
+    }
+
+    if(a.acceleration.y > maxAccY) {
+      maxAccY = a.acceleration.y;
+    }
+    
+    endtime = millis();
+  }
   
-  readings["accX"] = String(accX);
-  readings["accY"] = String(accY);
+  readings["accX"] = String(maxAccX);
+  readings["accY"] = String(maxAccY);
   readings["accZ"] = String(accZ);
   readings["gyroX"] = String(gyroX);
   readings["gyroY"] = String(gyroY);
