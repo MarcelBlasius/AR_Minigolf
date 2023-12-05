@@ -14,7 +14,7 @@
 #define DEBOUNCE_TIME 100
 #define MAX_SWING_TIME 10000
 #define MIN_ACC 10
-#define EARLIST_SWING_FINISH 5000
+#define EARLIST_SWING_FINISH 2000
 
 AsyncWebServer server(4200);
 AsyncEventSource sensorReadings("/SensorReadings");
