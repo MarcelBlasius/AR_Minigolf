@@ -5,9 +5,10 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class Stabilize : UnityEngine.MonoBehaviour
+	public partial class ConnectBottomRightCorner : UnityEngine.MonoBehaviour
 	{
-		public float @height = 0.5f;
+		public UnityEngine.GameObject @target;
+		public UnityEngine.GameObject @helper_corner;
 		public void update(){}
 	}
 }
