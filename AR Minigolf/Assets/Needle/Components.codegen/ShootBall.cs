@@ -14,6 +14,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.Rigidbody @body;
 		public void update(){}
 		public void onPointerClick(UnityEngine.EventSystems.PointerEventData @_args){}
+		public void start(){}
 	}
 }
 

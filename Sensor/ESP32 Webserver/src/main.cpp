@@ -7,6 +7,7 @@
 #include "Adafruit_Sensor.h"
 #include "Arduino_JSON.h"
 #include "SPIFFS.h"
+#include "math.h"
 
 #define BUTTON_PIN_SENSOR 19
 #define BUTTON_PIN_RESET 18
@@ -15,7 +16,7 @@
 #define MIN_ACC 10
 #define EARLIST_SWING_FINISH 5000
 
-AsyncWebServer server(80);
+AsyncWebServer server(4200);
 AsyncEventSource sensorReadings("/SensorReadings");
 AsyncEventSource reset("/Reset");
 
@@ -68,16 +69,9 @@ void initSPIFFS() {
 String getSensorReadings() {
   sensor.getEvent(&a, &g, &temp);
 
-  float accX = a.acceleration.x;
-  float accY = a.acceleration.y;
-  float accZ = a.acceleration.z;
-
-  float gyroX = g.gyro.x;
-  float gyroY = g.gyro.y;
-  float gyroZ = g.gyro.z;
-
   float maxAccX = 0;
   float maxAccY = 0;
+  float maxAccZ = 0;
 
   unsigned long starttime = millis();
   unsigned long endtime = starttime;
@@ -89,12 +83,16 @@ String getSensorReadings() {
       break;
     }
 
-    if(a.acceleration.x > maxAccX) {
-      maxAccX = a.acceleration.x;
+    if(abs(a.acceleration.x) > maxAccX) {
+      maxAccX = abs(a.acceleration.x);
     }
 
-    if(a.acceleration.y > maxAccY) {
-      maxAccY = a.acceleration.y;
+    if(abs(a.acceleration.y) > maxAccY) {
+      maxAccY = abs(a.acceleration.y);
+    }
+
+    if(abs(a.acceleration.z) > maxAccZ) {
+      maxAccZ = abs(a.acceleration.z);
     }
     
     endtime = millis();
@@ -102,22 +100,19 @@ String getSensorReadings() {
   
   readings["accX"] = String(maxAccX);
   readings["accY"] = String(maxAccY);
-  readings["accZ"] = String(accZ);
-  readings["gyroX"] = String(gyroX);
-  readings["gyroY"] = String(gyroY);
-  readings["gyroZ"] = String(gyroZ);
+  readings["accZ"] = String(maxAccZ);
 
   return JSON.stringify (readings);
 }
 
 void setup() {
   Serial.begin(115200);
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
   pinMode(BUTTON_PIN_SENSOR, INPUT_PULLUP);
   pinMode(BUTTON_PIN_RESET, INPUT_PULLUP);
   initWiFi();
   initSPIFFS();
   initSensor();
-
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index.html", "text/html");
   });

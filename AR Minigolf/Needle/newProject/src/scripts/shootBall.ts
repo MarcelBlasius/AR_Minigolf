@@ -44,4 +44,31 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
         this.body?.setVelocity(this.force);
         this.shot = true;
     }
+
+    start():void{
+        var sourceSensor = new EventSource('http://192.168.188.77:4200/SensorReadings');
+
+    sourceSensor.addEventListener('open', function(e) {
+      console.log("SensorReadings Connected");
+    }, false);
+   
+    sourceSensor.addEventListener('error', function(e: any) {
+      if (e.target.readyState != EventSource.OPEN) {
+        console.log("SensorReadings Disconnected");
+      }
+    }, false);
+  
+
+    sourceSensor.addEventListener('readings', (e : any) =>  {
+        console.log("readings", e.data);
+        var data = JSON.parse(e.data);
+        console.log(data);
+        let direction = new Vector3();
+        this.object?.getWorldDirection(direction);
+        direction = direction.normalize();
+        this.body?.setVelocity(data.accX * direction.x, 0, data.accZ * direction.z);
+        
+      }, false);
+
+    }
 }
