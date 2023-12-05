@@ -5,7 +5,7 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class ConnectBottomRightCorner : UnityEngine.MonoBehaviour
+	public partial class ConnectToScaledCorner : UnityEngine.MonoBehaviour
 	{
 		public UnityEngine.GameObject @target;
 		public UnityEngine.GameObject @helper_corner;

@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Stabilize : UnityEngine.MonoBehaviour
 	{
+		public float @height = 0.5f;
 		public void update(){}
 	}
 }
