@@ -1,9 +1,11 @@
 import { Behaviour, GameObject, IPointerClickHandler, PointerEventData, Rigidbody, serializable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
+import { ScoreManager } from "./score/scoreManager";
 export class ShootBall extends Behaviour implements IPointerClickHandler {
 
     private power = 5;
     private shot: boolean = false;
+    private scoreManager = ScoreManager.getInstance();
 
     @serializable(Object3D)
     directionIndicator?: Object3D;
@@ -69,6 +71,7 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
         this.body?.setVelocity(direction);
         this.shot = true;
         this.setDirectionIndiactorVisibility(false);
+        this.scoreManager.incrementScore();
     }
 
     // gets the normalized direction of the ball.

@@ -1,0 +1,7 @@
+.only-in-ar {
+    display: none;
+}
+
+.ar-session-active .only-in-ar {
+    display: initial;
+}
