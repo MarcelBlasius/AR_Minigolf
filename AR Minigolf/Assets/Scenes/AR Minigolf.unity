@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: {fileID: 1047117172}
-  object: {fileID: 0}
+  object: {fileID: 1052584588}
   body: {fileID: 1052584595}
 --- !u!114 &64750862
 MonoBehaviour:
@@ -1261,9 +1261,7 @@ GameObject:
   - component: {fileID: 1000573579}
   - component: {fileID: 1000573584}
   - component: {fileID: 1000573583}
-  - component: {fileID: 1000573582}
   - component: {fileID: 1000573581}
-  - component: {fileID: 1000573580}
   m_Layer: 0
   m_Name: Forward indicator
   m_TagString: Untagged
@@ -1286,21 +1284,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1052584592}
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 90}
---- !u!114 &1000573580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000573578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec1706d0832b0057158c03dcb529745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reference: {fileID: 1047117172}
-  object: {fileID: 0}
-  body: {fileID: 1052584595}
 --- !u!114 &1000573581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1311,18 +1294,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8dbed295924245ab9fc25c3df3bcff02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1000573582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000573578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42798c1a37db46409660e69421ebdd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!23 &1000573583
@@ -1586,7 +1557,7 @@ Transform:
   m_GameObject: {fileID: 1052584588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.412, y: 0.165, z: -0.331}
+  m_LocalPosition: {x: 2.31, y: 0.165, z: 2.25}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2068,6 +2039,7 @@ GameObject:
   - component: {fileID: 1950753975}
   - component: {fileID: 1950753973}
   - component: {fileID: 1950753978}
+  - component: {fileID: 1950753979}
   m_Layer: 0
   m_Name: Export Info
   m_TagString: EditorOnly
@@ -2088,8 +2060,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Needle.Engine.HtmlMeta, Needle.Engine.Meta $ GlobalObjectId_V1-2-cbf4489e1f7cfe44a8c739a511b0e4c7-1739218771-0
   meta:
-    title: Image Tracking
-    description: Placing content on images
+    title: AR Minigolf
+    description: AR Minigolf game
     image: {fileID: 2800000, guid: 5c484e94806dc044fb3a909899a67af5, type: 3}
 --- !u!114 &1950753975
 MonoBehaviour:
@@ -2153,6 +2125,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Glitch: {fileID: 1216498897}
+--- !u!114 &1950753979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950753972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64d7c3ab9e1babc8d2b50a2b5ef93c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  methods:
+  - m_PersistentCalls:
+      m_Calls: []
+  names: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
