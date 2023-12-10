@@ -1,11 +1,13 @@
-import { Behaviour, GameObject, IPointerClickHandler, PointerEventData, Rigidbody, serializable } from "@needle-tools/engine"
+import { Behaviour, PointerEventData, Rigidbody, serializable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
-export class ShootBall extends Behaviour implements IPointerClickHandler {
+import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
+export class ShootBall extends Behaviour {
 
     private power = 5;
     private shot: boolean = false;
     private scoreManager = ScoreManager.getInstance();
+    private clickHandler = ButtonClickHandler.getInstance();
 
     @serializable(Object3D)
     directionIndicator?: Object3D;
@@ -15,6 +17,7 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
 
     start(): void {
         this.registerSensorEvents();
+        this.registerButtonClick();
     }
 
     update(): void {
@@ -33,14 +36,10 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
             this.setDirectionIndiactorVisibility(true);
         }
     }
-
-    // shoot the ball on click
-    async onPointerClick(_args: PointerEventData) {
-        if (this.shot) {
-            return;
-        }
-
-        this.shoot(this.power);
+    private registerButtonClick() {
+        this.clickHandler.subscribe('shoot-button', () => {
+            this.shoot(this.power);
+        })
     }
 
     // connects and registers sensor events.
@@ -66,6 +65,10 @@ export class ShootBall extends Behaviour implements IPointerClickHandler {
 
     // shoot the ball.
     private shoot(power: number) {
+        if (this.shot) {
+            return;
+        }
+
         const direction = this.getDirection();
         direction.multiply(new Vector3(power, power, power));
         this.body?.setVelocity(direction);

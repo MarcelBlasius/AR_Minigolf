@@ -1,22 +1,27 @@
 import { Behaviour } from "@needle-tools/engine"
+import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 export class RotateBall extends Behaviour {
+    private clickHandler = ButtonClickHandler.getInstance();
+
     public deg = 5;
 
+    private rad = this.deg * Math.PI / 180;
+
     start(): void {
-        window.addEventListener('keydown', (event) => {
-            const rad = this.deg * Math.PI / 180;
-
-            if (event.key === "ArrowLeft") {
-                console.log(`Rotating ball ${this.deg} degree to the left.`);
-                this.gameObject.rotateY(rad)
-                return;
-            }
-
-            if (event.key === "ArrowRight") {
-                console.log(`Rotating ball ${this.deg} degree to the right.`);
-                this.gameObject.rotateY(-rad);
-                return;
-            }
+        this.clickHandler.subscribe('rotate-right-button', () => {
+            this.rotateRight();
         });
+
+        this.clickHandler.subscribe('rotate-left-button', () => {
+            this.rotateLeft();
+        });
+    }
+
+    rotateRight() {
+        this.gameObject.rotateY(-this.rad);
+    }
+
+    rotateLeft() {
+        this.gameObject.rotateY(this.rad)
     }
 }

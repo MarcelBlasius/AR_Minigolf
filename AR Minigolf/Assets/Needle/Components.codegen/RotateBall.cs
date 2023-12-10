@@ -9,6 +9,8 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		// public undefined @deg; → Could not resolve C# type
 		public void start(){}
+		public void rotateRight(){}
+		public void rotateLeft(){}
 	}
 }
 
