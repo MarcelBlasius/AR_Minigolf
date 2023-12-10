@@ -1,0 +1,9 @@
+.header {
+    margin-top: 5vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.header .icon-button {
+    margin-top: 20px;
+}

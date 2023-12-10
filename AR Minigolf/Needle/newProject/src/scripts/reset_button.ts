@@ -1,8 +1,10 @@
-import { Behaviour, GameObject, IPointerClickHandler, PointerEventData, Rigidbody, SyncedTransform, VERSION, serializeable, showBalloonMessage } from "@needle-tools/engine"
+import { Behaviour, Rigidbody, serializeable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
-import { requestOwnership } from "./utils";
 import { ScoreManager } from "./score/scoreManager";
-export class ResetButton extends Behaviour implements IPointerClickHandler {
+import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
+import { ButtonEvent } from "./buttons/buttonEvents";
+
+export class ResetButton extends Behaviour {
   @serializeable(Object3D)
   reference?: Object3D;
 
@@ -13,12 +15,14 @@ export class ResetButton extends Behaviour implements IPointerClickHandler {
   body?: Rigidbody;
 
   private scoreManager = ScoreManager.getInstance();
-
-  async onPointerClick(_args: PointerEventData) {
-    this.reset();
-  }
+  private clickHandler = ButtonClickHandler.getInstance();
 
   start(): void {
+    this.mapButtonClick();
+    this.mapGolfClubClick();
+  }
+
+  private mapGolfClubClick() {
     const sourceReset = new EventSource('http://192.168.188.77:4200/Reset');
 
     sourceReset.addEventListener('open', function (e) {
@@ -35,6 +39,14 @@ export class ResetButton extends Behaviour implements IPointerClickHandler {
       console.log("reset", e.data);
       this.reset();
     }, false);
+  }
+
+  private mapButtonClick() {
+    this.clickHandler.subscribe('reset-button', (event) => {
+      if (event === ButtonEvent.CLICK) {
+        this.reset();
+      }
+    });
   }
 
   private reset() {
