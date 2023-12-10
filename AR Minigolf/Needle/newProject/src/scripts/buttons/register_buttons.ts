@@ -1,4 +1,5 @@
 import { ButtonClickHandler } from "./ButtonClickHandler";
+import { ButtonEvent } from "./buttonEvents";
 
 console.log('registering ui buttons');
 
@@ -15,7 +16,15 @@ function registerButton(buttonId: string) {
     if (!button) throw new Error("HTML Element not found: " + buttonId);
 
     button.addEventListener("click", () => {
-        clickHandler.onClick(buttonId);
+        clickHandler.onClick(buttonId, ButtonEvent.CLICK);
+    });
+
+    button.addEventListener("pointerdown", () => {
+        clickHandler.onClick(buttonId, ButtonEvent.DOWN);
+    });
+
+    button.addEventListener("pointerup", () => {
+        clickHandler.onClick(buttonId, ButtonEvent.UP);
     });
 
     console.log(buttonId, 'registerd')

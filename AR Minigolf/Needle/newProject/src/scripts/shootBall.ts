@@ -1,13 +1,15 @@
-import { Behaviour, PointerEventData, Rigidbody, serializable } from "@needle-tools/engine"
+import { Behaviour, Button, PointerEventData, Rigidbody, serializable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
+import { ButtonEvent } from "./buttons/buttonEvents";
 export class ShootBall extends Behaviour {
 
     private power = 5;
     private shot: boolean = false;
     private scoreManager = ScoreManager.getInstance();
     private clickHandler = ButtonClickHandler.getInstance();
+    private shootTimer = new Date();
 
     @serializable(Object3D)
     directionIndicator?: Object3D;
@@ -37,8 +39,24 @@ export class ShootBall extends Behaviour {
         }
     }
     private registerButtonClick() {
-        this.clickHandler.subscribe('shoot-button', () => {
-            this.shoot(this.power);
+        this.clickHandler.subscribe('shoot-button', (event) => {
+            switch (event) {
+                case (ButtonEvent.DOWN):
+                    this.shootTimer = new Date();
+                    break;
+                case (ButtonEvent.UP):
+                    const end = new Date();
+                    let delta = end.getTime() - this.shootTimer.getTime();
+                    if (delta > 3000) {
+                        delta = 3000;
+                    }
+
+                    delta /= 1000;
+
+                    console.log('shooting ball with', delta * this.power);
+                    this.shoot(delta * this.power);
+                    break;
+            }
         })
     }
 

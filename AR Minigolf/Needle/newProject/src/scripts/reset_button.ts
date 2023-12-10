@@ -2,6 +2,7 @@ import { Behaviour, Rigidbody, serializeable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
+import { ButtonEvent } from "./buttons/buttonEvents";
 
 export class ResetButton extends Behaviour {
   @serializeable(Object3D)
@@ -41,8 +42,10 @@ export class ResetButton extends Behaviour {
   }
 
   private mapButtonClick() {
-    this.clickHandler.subscribe('reset-button', () => {
-      this.reset();
+    this.clickHandler.subscribe('reset-button', (event) => {
+      if (event === ButtonEvent.CLICK) {
+        this.reset();
+      }
     });
   }
 
