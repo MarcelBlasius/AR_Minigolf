@@ -1,12 +1,24 @@
-import { Behaviour } from "@needle-tools/engine";
+import { Behaviour, serializeable } from "@needle-tools/engine";
+import { Object3D, Vector3 } from "three";
 
 export class Stabilize extends Behaviour {
-    public height: number = 0.5;
+    @serializeable(Object3D)
+    object?: Object3D;
 
     update(): void {
-        this.gameObject.position.setY(this.height);
-        this.gameObject.rotation.x = 0;
-        this.gameObject.rotation.z = 0;
+        if (!this.object) throw new Error('object is undefined');
+
+        if (!this.object.visible) {
+            return;
+        }
+        this.gameObject.visible = true;
+
+        const global = new Vector3();
+        this.object.getWorldPosition(global);
+
+        this.gameObject.position.copy(global);
+        this.gameObject.position.y = global.y;
+        this.gameObject.rotation.y = this.object.rotation.y;
     }
 }
 

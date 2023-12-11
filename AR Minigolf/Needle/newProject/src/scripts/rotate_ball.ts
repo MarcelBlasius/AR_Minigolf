@@ -22,7 +22,7 @@ export class RotateBall extends Behaviour {
                     this.rotatingRight = true;
                     while (this.rotatingRight) {
                         this.rotateRight();
-                        await new Promise(resolve => setTimeout(resolve, 1));
+                        await new Promise(resolve => setTimeout(resolve, 25));
                     }
                     break;
                 case (ButtonEvent.UP):
@@ -37,7 +37,7 @@ export class RotateBall extends Behaviour {
                     this.rotatingLeft = true;
                     while (this.rotatingLeft) {
                         this.rotateLeft();
-                        await new Promise(resolve => setTimeout(resolve, 1));
+                        await new Promise(resolve => setTimeout(resolve, 25));
                     }
                     break;
                 case (ButtonEvent.UP):

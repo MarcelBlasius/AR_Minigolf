@@ -1,5 +1,7 @@
 import { Behaviour, serializable } from "@needle-tools/engine";
 import { Matrix4, Object3D, Vector3 } from "three";
+import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
+import { ButtonEvent } from "./buttons/buttonEvents";
 
 export class ConnectToScaledCorner extends Behaviour {
     @serializable(Object3D)
@@ -8,23 +10,27 @@ export class ConnectToScaledCorner extends Behaviour {
     @serializable(Object3D)
     helper_corner?: Object3D;
 
-    private transformed = false;
+    private clickHandler = ButtonClickHandler.getInstance();
 
-    update(): void {
-        if (this.transformed) {
-            return;
-        }
+    start(): void {
+    }
 
+    private registerButtonClick() {
+        this.clickHandler.subscribe('connect-button', (event) => {
+            switch (event) {
+                case (ButtonEvent.CLICK):
+                    console.log('here');
+                    this.stabilize();
+                    break;
+            }
+        })
+    }
+
+    private stabilize() {
         if (!this.helper_corner || !this.target) {
             console.error('helper corner or target is not defined');
             return;
         }
-
-        // do not connect invisible object
-        if (!this.gameObject.visible || !this.target?.visible) {
-            return;
-        }
-
         this.helper_corner.visible = true;
 
         const scaleX = this.gameObject.position.x - this.target.position.x;
@@ -45,7 +51,5 @@ export class ConnectToScaledCorner extends Behaviour {
 
         this.helper_corner.translateZ(-moveZ);
         this.helper_corner.scale.setZ(absScaleZ);
-
-        this.transformed = true;
     }
 }

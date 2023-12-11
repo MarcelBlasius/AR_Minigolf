@@ -9,7 +9,8 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.GameObject @target;
 		public UnityEngine.GameObject @helper_corner;
-		public void update(){}
+		public UnityEngine.GameObject @helper_corner2;
+		public void start(){}
 	}
 }
 
