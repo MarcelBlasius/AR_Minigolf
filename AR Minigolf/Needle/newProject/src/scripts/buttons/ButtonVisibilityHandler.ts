@@ -18,5 +18,6 @@ export class ButtonVisibilityHandler {
         this.setVisibility('rotate-right-button', visible);
         this.setVisibility('reset-button', visible);
         this.setVisibility('shoot-button', visible);
+        this.setVisibility('connect-button', visible);
     }
 }
