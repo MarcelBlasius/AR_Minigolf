@@ -3,6 +3,7 @@ import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
+import { SensorResetHandler } from "./sensor/SensorResetHandler";
 
 export class ResetButton extends Behaviour {
   @serializeable(Object3D)
@@ -23,22 +24,10 @@ export class ResetButton extends Behaviour {
   }
 
   private mapGolfClubClick() {
-    const sourceReset = new EventSource('http://192.168.188.77:4200/Reset');
-
-    sourceReset.addEventListener('open', function (e) {
-      console.log("Reset Connected");
-    }, false);
-
-    sourceReset.addEventListener('error', function (e: any) {
-      if (e.target.readyState != EventSource.OPEN) {
-        console.log("Reset Disconnected");
-      }
-    }, false);
-
-    sourceReset.addEventListener('reset', (e: any) => {
-      console.log("reset", e.data);
+    SensorResetHandler.getInstance().subscribe(() => {
+      console.debug('reset_button received sensor reset click');
       this.reset();
-    }, false);
+    })
   }
 
   private mapButtonClick() {

@@ -1,8 +1,9 @@
-import { Behaviour, Button, PointerEventData, Rigidbody, serializable } from "@needle-tools/engine"
+import { Behaviour, Rigidbody, serializable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
+import { SensorReadingsHandler } from "./sensor/SensorReadingsHandler";
 export class ShootBall extends Behaviour {
 
     private power = 5;
@@ -60,25 +61,11 @@ export class ShootBall extends Behaviour {
         })
     }
 
-    // connects and registers sensor events.
     private registerSensorEvents() {
-        var sourceSensor = new EventSource('http://192.168.188.77:4200/SensorReadings');
-
-        sourceSensor.addEventListener('open', function (e) {
-            console.log("SensorReadings Connected");
-        }, false);
-
-        sourceSensor.addEventListener('error', function (e: any) {
-            if (e.target.readyState != EventSource.OPEN) {
-                console.log("SensorReadings Disconnected");
-            }
-        }, false);
-
-        sourceSensor.addEventListener('readings', (e: any) => {
-            console.log("readings", e.data);
-            const data = JSON.parse(e.data);
+        SensorReadingsHandler.getInstance().subscribe(data => {
+            console.debug('shootBall: received', data);
             this.shoot((data.accX + data.accZ) / 2);
-        }, false);
+        })
     }
 
     // shoot the ball.
