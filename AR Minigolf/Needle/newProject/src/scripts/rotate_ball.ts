@@ -5,7 +5,7 @@ import { SensorDirectionHandler } from "./sensor/SensorDirectionHandler";
 export class RotateBall extends Behaviour {
     private clickHandler = ButtonClickHandler.getInstance();
 
-    public deg = 1;
+    public deg = 25;
 
     private rad = this.deg * Math.PI / 180;
 
@@ -53,10 +53,10 @@ export class RotateBall extends Behaviour {
         SensorDirectionHandler.getInstance().subscribe(data => {
             console.debug('rotate_Ball: received', data);
             if (data === "left") {
-                this.rotateLeft;
+                this.rotateLeft();
             }
             if (data === "right") {
-                this.rotateRight;
+                this.rotateRight();
             }
         })
     }
