@@ -7,7 +7,7 @@ export class SensorDirectionHandler {
     }
 
     private static instance: SensorDirectionHandler | undefined;
-    private subscribers: (() => void)[] = [];
+    private subscribers: ((data: any) => void)[] = [];
     private source = new EventSource(SENSOR_DIRECTION_URL);
     private visibilityHandler = new ButtonVisibilityHandler();
 
@@ -19,7 +19,7 @@ export class SensorDirectionHandler {
         return this.instance;
     }
 
-    public subscribe(callback: () => void) {
+    public subscribe(callback: (data: any) => void) {
         this.subscribers.push(callback);
     };
 
@@ -40,7 +40,7 @@ export class SensorDirectionHandler {
 
         this.source.addEventListener('direction', (e: any) => {
             console.log("direction", e.data);
-            this.subscribers.forEach(c => c());
+            this.subscribers.forEach(c => c(e.data));
         });
     }
 }

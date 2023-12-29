@@ -1,6 +1,7 @@
 import { Behaviour } from "@needle-tools/engine"
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
+import { SensorDirectionHandler } from "./sensor/SensorDirectionHandler";
 export class RotateBall extends Behaviour {
     private clickHandler = ButtonClickHandler.getInstance();
 
@@ -13,6 +14,7 @@ export class RotateBall extends Behaviour {
 
     start(): void {
         this.mapButtonClicks();
+        this.registerDirectionEvents();
     }
 
     private mapButtonClicks() {
@@ -45,6 +47,18 @@ export class RotateBall extends Behaviour {
                     break;
             }
         });
+    }
+
+    private registerDirectionEvents() {
+        SensorDirectionHandler.getInstance().subscribe(data => {
+            console.debug('rotate_Ball: received', data);
+            if (data === "left") {
+                this.rotateLeft;
+            }
+            if (data === "right") {
+                this.rotateRight;
+            }
+        })
     }
 
     private rotateRight() {
