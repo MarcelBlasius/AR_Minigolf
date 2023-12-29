@@ -1,3 +1,4 @@
+import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_RESET_URL } from "./SensorUrls";
 
@@ -8,7 +9,7 @@ export class SensorResetHandler {
 
     private static instance: SensorResetHandler | undefined;
     private subscribers: (() => void)[] = [];
-    private source = new EventSource(SENSOR_RESET_URL);
+    private source = new ReconnectingEventSource(SENSOR_RESET_URL);
     private visibilityHandler = new ButtonVisibilityHandler();
 
     public static getInstance(): SensorResetHandler {
