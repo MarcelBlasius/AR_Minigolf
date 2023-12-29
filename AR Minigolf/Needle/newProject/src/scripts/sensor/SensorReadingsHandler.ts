@@ -1,3 +1,4 @@
+import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_READINGS_URL } from "./SensorUrls";
 
@@ -8,7 +9,7 @@ export class SensorReadingsHandler {
 
     private static instance: SensorReadingsHandler | undefined;
     private subscribers: ((data: any) => void)[] = [];
-    private readingsSensor = new EventSource(SENSOR_READINGS_URL);
+    private readingsSensor = new ReconnectingEventSource(SENSOR_READINGS_URL);
     private visibilityHandler = new ButtonVisibilityHandler();
 
     public static getInstance(): SensorReadingsHandler {

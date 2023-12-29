@@ -1,7 +1,7 @@
 {
   "name": "my-needle-engine-project",
   "version": "1.0.0",
-  "type" : "module",
+  "type": "module",
   "scripts": {
     "start": "vite --host",
     "build:dev": "vite build",
@@ -9,16 +9,17 @@
     "gltf:transform": "npm run transform --prefix node_modules/@needle-tools/gltf-build-pipeline"
   },
   "dependencies": {
-	  "@needle-tools/engine": "^3.22.0",
-	  "three": "npm:@needle-tools/three@^0.154.3",
-	  "@needle-tools/samples-scripts": "file:./../../Library/PackageCache/com.needle.engine-samples@0.12.0/Runtime/_Shared/SampleScripts~"
-	},
+    "@needle-tools/engine": "^3.22.0",
+    "@needle-tools/samples-scripts": "file:./../../Library/PackageCache/com.needle.engine-samples@0.12.0/Runtime/_Shared/SampleScripts~",
+    "reconnecting-eventsource": "^1.6.2",
+    "three": "npm:@needle-tools/three@^0.154.3"
+  },
   "devDependencies": {
-	  "@needle-tools/helper": "^1.6.0",
-	  "@types/three": "0.154.0",
-	  "@vitejs/plugin-basic-ssl": "^1.0.1",
-	  "typescript": "^5.0.4",
-	  "vite": "<= 4.3.9",
-	  "vite-plugin-compression": "^0.5.1"
-	}
+    "@needle-tools/helper": "^1.6.0",
+    "@types/three": "0.154.0",
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "typescript": "^5.0.4",
+    "vite": "<= 4.3.9",
+    "vite-plugin-compression": "^0.5.1"
+  }
 }
