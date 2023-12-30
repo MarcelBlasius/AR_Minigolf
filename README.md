@@ -3,8 +3,8 @@
 # Required:
 You have to enable the following chrome flags:
 * chrome://flags/#webxr-incubations
-* got to chrome://flags/ -> unsafely-treat-insecure-origin-as-secure -> add ip of spring database service
-* 
+* got to chrome://flags/ -> unsafely-treat-insecure-origin-as-secure -> add ip + port of spring database service e.g. http://192.168.178.30:8080
+
 # Markers
 Preliminary markers created with:
 https://shawnlehner.github.io/ARMaker/
