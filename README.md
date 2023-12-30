@@ -1,5 +1,10 @@
 # AR_Minigolf
 
+# Required:
+You have to enable the following chrome flags:
+* chrome://flags/#webxr-incubations
+* got to chrome://flags/ -> unsafely-treat-insecure-origin-as-secure -> add ip of spring database service
+* 
 # Markers
 Preliminary markers created with:
 https://shawnlehner.github.io/ARMaker/
