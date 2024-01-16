@@ -5,7 +5,7 @@ import { SensorDirectionHandler } from "./sensor/SensorDirectionHandler";
 export class RotateBall extends Behaviour {
     private clickHandler = ButtonClickHandler.getInstance();
 
-    public deg = 25;
+    public deg = 2.5;
 
     private rad = this.deg * Math.PI / 180;
 
