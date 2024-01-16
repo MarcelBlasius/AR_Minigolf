@@ -1,8 +1,11 @@
 import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_READINGS_URL } from "./SensorUrls";
+import { SensorStates } from "./SensorState";
 
 export class SensorReadingsHandler {
+    private state = SensorStates.DISCONNECTED
+
     private constructor() {
         this.initialize();
     }
@@ -26,12 +29,19 @@ export class SensorReadingsHandler {
 
     private initialize() {
         this.readingsSensor.addEventListener('open', (_) => {
+            if (this.state === SensorStates.CONNECTED) {
+                return;
+            }
+
             console.log("SensorReadings Connected");
             this.visibilityHandler.showAlternativeControlButtons(false);
         });
 
         this.readingsSensor.addEventListener('error', (e: any) => {
             if (e.target.readyState != EventSource.OPEN) {
+                if (this.state === SensorStates.DISCONNECTED) {
+                    return;
+                }
                 console.log("SensorReadings Disconnected");
                 this.visibilityHandler.showAlternativeControlButtons(true);
             }

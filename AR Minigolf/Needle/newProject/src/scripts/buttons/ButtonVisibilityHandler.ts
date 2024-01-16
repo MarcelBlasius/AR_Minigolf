@@ -1,14 +1,16 @@
 export class ButtonVisibilityHandler {
     public setVisibility(buttonId: string, visible: boolean) {
-        const button = document.getElementById(buttonId);
+        const button = document.getElementById(buttonId) as HTMLButtonElement;
         if (!button) {
             console.error('setVisibiltiy: button not found.', buttonId);
             return;
         }
 
         if (visible) {
+            button.disabled = false;
             button.style.visibility = 'visible';
         } else {
+            button.disabled = true;
             button.style.visibility = 'hidden';
         }
     }

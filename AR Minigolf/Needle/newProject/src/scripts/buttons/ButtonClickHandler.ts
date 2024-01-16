@@ -23,6 +23,10 @@ export class ButtonClickHandler {
     }
 
     public onClick(buttonId: string, event: ButtonEvent) {
+        const button = document.getElementById(buttonId) as HTMLButtonElement;
+        if (button.disabled) {
+            return;
+        }
         if (!this.map[buttonId]) {
             console.warn('No receivers for', buttonId);
             return;
