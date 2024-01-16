@@ -1,6 +1,6 @@
 const url = "http://192.168.178.30:8080/session"
 const addButton = document.getElementById('add-button');
-asd
+
 const player = prompt("Please enter your name:", "");
 const playerEl = document.getElementById('player');
 playerEl.innerHTML = `Hello ${player}!`
