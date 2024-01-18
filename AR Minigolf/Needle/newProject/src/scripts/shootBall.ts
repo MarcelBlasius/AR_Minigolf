@@ -4,14 +4,14 @@ import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
 import { SensorReadingsHandler } from "./sensor/SensorReadingsHandler";
+import { PowerBarHandler } from "./power-bar/PowerBarHandler";
+import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 export class ShootBall extends Behaviour {
-
-    private power = 5;
     private shot: boolean = false;
     private scoreManager = ScoreManager.getInstance();
     private clickHandler = ButtonClickHandler.getInstance();
-    private shootTimer = new Date();
-
+    private powerBarHandler = new PowerBarHandler();
+    private buttonVisibilityHandler = new ButtonVisibilityHandler();
     @serializable(Object3D)
     directionIndicator?: Object3D;
 
@@ -37,25 +37,22 @@ export class ShootBall extends Behaviour {
         if (Math.abs(velo.x + velo.y + velo.z) < 0.01) {
             this.shot = false;
             this.setDirectionIndiactorVisibility(true);
+            this.buttonVisibilityHandler.showShootRelatedButtons(true);
         }
     }
     private registerButtonClick() {
         this.clickHandler.subscribe('shoot-button', (event) => {
             switch (event) {
                 case (ButtonEvent.DOWN):
-                    this.shootTimer = new Date();
+                    this.powerBarHandler.startFill();
                     break;
                 case (ButtonEvent.UP):
-                    const end = new Date();
-                    let delta = end.getTime() - this.shootTimer.getTime();
-                    if (delta > 3000) {
-                        delta = 3000;
-                    }
+                    this.powerBarHandler.stopFill();
+                    let power = this.powerBarHandler.getPower();
+                    power /= 20;
+                    console.log('shooting ball with', power);
 
-                    delta /= 1000;
-
-                    console.log('shooting ball with', delta * this.power);
-                    this.shoot(delta * this.power);
+                    this.shoot(power);
                     break;
             }
         })
@@ -79,6 +76,7 @@ export class ShootBall extends Behaviour {
         this.body?.setVelocity(direction);
         this.shot = true;
         this.setDirectionIndiactorVisibility(false);
+        this.buttonVisibilityHandler.showShootRelatedButtons(false);
         this.scoreManager.incrementScore();
     }
 

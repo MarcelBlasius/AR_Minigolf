@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AR Minigolf", "AR Minigolf", "{EDBDD63A-0CAC-4748-A4F6-64F76EA5F29E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{65A2A265-AA40-4ADF-B275-72D225493ABF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PackageCache", "PackageCache", "{B0ACE97F-4ECE-40CD-BFF7-8562384B8C7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "org.khronos.unitygltf@2.5.0-exp", "org.khronos.unitygltf@2.5.0-exp", "{BD0C5CBD-5ABB-4422-9D1F-6242B8AFE219}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtime", "Runtime", "{AF00C65D-B575-4DFC-822E-0F443F4F97F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{44DDACF7-BB78-43F1-A5D7-AD8FF46F741C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GLTFSerialization", "GLTFSerialization", "{73285EC2-DE10-441A-B117-6103C48B6BB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLTFSerialization", "AR Minigolf\Library\PackageCache\org.khronos.unitygltf@2.5.0-exp\Runtime\Plugins\GLTFSerialization\Legacy~\GLTFSerialization.csproj", "{D08DE736-0EF5-4236-8210-8095B70B7FD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D08DE736-0EF5-4236-8210-8095B70B7FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D08DE736-0EF5-4236-8210-8095B70B7FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D08DE736-0EF5-4236-8210-8095B70B7FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D08DE736-0EF5-4236-8210-8095B70B7FD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65A2A265-AA40-4ADF-B275-72D225493ABF} = {EDBDD63A-0CAC-4748-A4F6-64F76EA5F29E}
+		{B0ACE97F-4ECE-40CD-BFF7-8562384B8C7D} = {65A2A265-AA40-4ADF-B275-72D225493ABF}
+		{BD0C5CBD-5ABB-4422-9D1F-6242B8AFE219} = {B0ACE97F-4ECE-40CD-BFF7-8562384B8C7D}
+		{AF00C65D-B575-4DFC-822E-0F443F4F97F5} = {BD0C5CBD-5ABB-4422-9D1F-6242B8AFE219}
+		{44DDACF7-BB78-43F1-A5D7-AD8FF46F741C} = {AF00C65D-B575-4DFC-822E-0F443F4F97F5}
+		{73285EC2-DE10-441A-B117-6103C48B6BB5} = {44DDACF7-BB78-43F1-A5D7-AD8FF46F741C}
+		{D08DE736-0EF5-4236-8210-8095B70B7FD1} = {73285EC2-DE10-441A-B117-6103C48B6BB5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46C9E995-96FC-4D84-96FF-019FBE1B2F61}
+	EndGlobalSection
+EndGlobal

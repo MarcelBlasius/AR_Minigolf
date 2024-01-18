@@ -1,8 +1,11 @@
 import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_RESET_URL } from "./SensorUrls";
+import { SensorStates } from "./SensorState";
 
 export class SensorResetHandler {
+    private state = SensorStates.DISCONNECTED
+
     private constructor() {
         this.initialize();
     }
@@ -26,12 +29,18 @@ export class SensorResetHandler {
 
     private initialize() {
         this.source.addEventListener('open', (_) => {
+            if (this.state === SensorStates.CONNECTED) {
+                return;
+            }
             console.log("Reset Connected");
             this.visibilityHandler.setVisibility('reset-button', false);
         });
 
         this.source.addEventListener('error', (e: any) => {
             if (e.target.readyState != EventSource.OPEN) {
+                if (this.state === SensorStates.DISCONNECTED) {
+                    return;
+                }
                 console.log("Reset Disconnected");
                 this.visibilityHandler.setVisibility('reset-button', true);
             }

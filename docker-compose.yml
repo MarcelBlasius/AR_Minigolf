@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  mongo:
+    ports:
+      - "27017:27017"
+    container_name: mongo-db
+    image: mongo
+  spring:
+    build:
+      context: ./Database/WE_Database
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      - spring.data.mongodb.uri=mongodb://host.docker.internal:27017/spring

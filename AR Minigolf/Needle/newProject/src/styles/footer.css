@@ -4,4 +4,24 @@
     width: 100vw;
     display: flex;
     justify-content: space-around;
+    align-items: end;
+}
+
+/* https://stackoverflow.com/questions/7190898/progress-bar-with-html-and-css> */
+#progressbar {
+    visibility: hidden;
+    height: 100px;
+    background-color: black;
+    rotate: 180deg;
+    border-radius: 13px;
+    /* (height of inner div) / 2 + padding */
+    padding: 3px;
+    margin-bottom: 25px;
+}
+
+#progressFiller {
+    background-color: orange;
+    /* Adjust with JavaScript */
+    height: 0px;
+    border-radius: 10px;
 }

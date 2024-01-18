@@ -1,8 +1,11 @@
 import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_DIRECTION_URL } from "./SensorUrls";
+import { SensorStates } from "./SensorState";
 
 export class SensorDirectionHandler {
+    private state = SensorStates.DISCONNECTED
+
     private constructor() {
         this.initialize();
     }
@@ -26,6 +29,9 @@ export class SensorDirectionHandler {
 
     private initialize() {
         this.source.addEventListener('open', (_) => {
+            if (this.state === SensorStates.CONNECTED) {
+                return;
+            }
             console.log("Direction Connected");
             this.visibilityHandler.setVisibility('rotate-left-button', false);
             this.visibilityHandler.setVisibility('rotate-right-button', false);
@@ -33,6 +39,9 @@ export class SensorDirectionHandler {
 
         this.source.addEventListener('error', (e: any) => {
             if (e.target.readyState != EventSource.OPEN) {
+                if (this.state === SensorStates.DISCONNECTED) {
+                    return;
+                }
                 console.log("Direction Disconnected");
                 this.visibilityHandler.setVisibility('rotate-left-button', true);
                 this.visibilityHandler.setVisibility('rotate-right-button', true);
