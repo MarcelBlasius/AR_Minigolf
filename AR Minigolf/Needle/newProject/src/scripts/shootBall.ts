@@ -36,6 +36,7 @@ export class ShootBall extends Behaviour {
         const velo = this.body.getVelocity();
         if (Math.abs(velo.x + velo.y + velo.z) < 0.01) {
             this.shot = false;
+            // TODO show correct shooting mode after shot
             this.setDirectionIndiactorVisibility(true);
             this.buttonVisibilityHandler.showShootRelatedButtons(true);
         }
@@ -50,7 +51,6 @@ export class ShootBall extends Behaviour {
                     this.powerBarHandler.stopFill();
                     let power = this.powerBarHandler.getPower();
                     power /= 20;
-                    console.log('shooting ball with', power);
 
                     this.shoot(power);
                     break;
@@ -61,7 +61,9 @@ export class ShootBall extends Behaviour {
     private registerSensorEvents() {
         SensorReadingsHandler.getInstance().subscribe(data => {
             console.debug('shootBall: received', data);
-            this.shoot((data.accX + data.accZ) / 2);
+            let power = parseFloat(data.accX) + parseFloat(data.accZ) / 2;
+            power /= 10;
+            this.shoot(power);
         })
     }
 
@@ -72,6 +74,7 @@ export class ShootBall extends Behaviour {
         }
 
         const direction = this.getDirection();
+        console.log('shooting ball with', power);
         direction.multiply(new Vector3(power, power, power));
         this.body?.setVelocity(direction);
         this.shot = true;

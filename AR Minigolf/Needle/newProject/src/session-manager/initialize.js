@@ -95,6 +95,7 @@ function createPlayButton(player, session) {
 
     button.appendChild(svg);
 
+    // TODO retrieve session before put
     button.addEventListener("click", async () => {
         const putData = {
             id: session.id,
@@ -117,7 +118,7 @@ function createPlayButton(player, session) {
 
         const putDataJSON = JSON.stringify(putData);
         xhr.send(putDataJSON);
-
+        
     });
 
     return button;
