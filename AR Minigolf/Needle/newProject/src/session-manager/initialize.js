@@ -1,4 +1,4 @@
-const url = "http://192.168.178.30:8080/session"
+const url = "http://localhost:8080/session"
 const addButton = document.getElementById('add-button');
 
 const player = prompt("Please enter your name:", "");
@@ -8,15 +8,18 @@ playerEl.innerHTML = `Hello ${player}!`
 initialize();
 
 function initialize() {
-    fetch(url)
-        .then(response => {
-            return response.json();
-        }).then(data => {
-            console.log('received data', data);
-            for (const session of data) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let responseData = JSON.parse(xhr.responseText);
+            console.log('received sessions', responseData);
+            for (const session of responseData) {
                 createSessionEntry(session.name, session)
             }
-        });
+        }
+    };
+    xhr.send();
 }
 
 addButton.addEventListener("click", async () => {
@@ -29,16 +32,19 @@ addButton.addEventListener("click", async () => {
         players: [],
     };
 
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-    });
-    const session = await response.json();
-    console.log('Created session', session);
-    createSessionEntry(name, session);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 201) {
+            const session = JSON.parse(xhr.responseText);
+            console.log('Created session', session);
+            createSessionEntry(name, session);
+        }
+    };
+    const postDataJSON = JSON.stringify(postData);
+    xhr.send(postDataJSON);
 });
 
 function createSessionEntry(name, session) {
@@ -96,19 +102,21 @@ function createPlayButton(player, session) {
             players: [...new Set([...session.players, player])],
         };
         console.log('Put data', putData);
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(putData),
-        });
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-        if (response.ok) {
-            console.log('Updated session', putData);
-            console.log('play button clicked for session', button.parentElement.parentElement.sessionId);
-            window.location.href = `/index.html?sessionId=${button.parentElement.parentElement.sessionId}&playerId=${player}`;
-        }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const putData = JSON.parse(xhr.responseText);
+                console.log('Updated session', putData);
+                console.log(`play button clicked for session ${session.id}`);
+                window.location.href = `/minigolf.html?sessionId=${session.id}&playerId=${player}`;
+            }
+        };
+
+        const putDataJSON = JSON.stringify(putData);
+        xhr.send(putDataJSON);
 
     });
 
@@ -150,15 +158,17 @@ function createDeleteButton() {
     button.addEventListener("click", async () => {
         const sessionId = button.parentElement.parentElement.sessionId
         console.log('delete button clicked for session', sessionId);
-        const response = await fetch(`${url}/${sessionId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (response.ok) {
-            button.parentElement.remove();
-        }
+        const xhr = new XMLHttpRequest();
+        xhr.open('DELETE', `${url}/${sessionId}`, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                button.parentElement.remove();
+            }
+        };
+
+        xhr.send();
     });
 
     return button;
