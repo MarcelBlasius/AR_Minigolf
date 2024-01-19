@@ -54,7 +54,6 @@ export class ConnectionHandler {
         const buttonClickHandler = ButtonClickHandler.getInstance();
         buttonClickHandler.subscribe('connect-button', (event) => {
             if (event === ButtonEvent.CLICK) {
-                console.log('click')
                 this.connect();
             }
         })
