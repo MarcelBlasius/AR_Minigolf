@@ -38,7 +38,7 @@ export class ShootBall extends Behaviour {
             this.shot = false;
             // TODO show correct shooting mode after shot
             this.setDirectionIndiactorVisibility(true);
-            this.buttonVisibilityHandler.showShootRelatedButtons(true);
+            //   this.buttonVisibilityHandler.showShootRelatedButtons(true);
         }
     }
     private registerButtonClick() {
@@ -79,7 +79,7 @@ export class ShootBall extends Behaviour {
         this.body?.setVelocity(direction);
         this.shot = true;
         this.setDirectionIndiactorVisibility(false);
-        this.buttonVisibilityHandler.showShootRelatedButtons(false);
+        //  this.buttonVisibilityHandler.showShootRelatedButtons(false);
         this.scoreManager.incrementScore();
     }
 
