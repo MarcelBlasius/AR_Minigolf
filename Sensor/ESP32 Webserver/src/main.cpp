@@ -9,14 +9,17 @@
 #include "SPIFFS.h"
 #include "math.h"
 
-#define BUTTON_PIN_SENSOR 19
-#define BUTTON_PIN_RESET 18
-#define BUTTON_PIN_LEFT 17
-#define BUTTON_PIN_RIGHT 16
+// SensorPin SCU 22
+// SensorPin SDA 21
+#define BUTTON_PIN_SENSOR 25 // grün
+#define BUTTON_PIN_RESET 26  // rot
+#define BUTTON_PIN_LEFT 27   // schwarz
+#define BUTTON_PIN_RIGHT 32  // weiß
 #define DEBOUNCE_TIME 100
 #define MAX_SWING_TIME 10000
 #define MIN_ACC 10
 #define EARLIST_SWING_FINISH 2000
+#define DIRECTION_TIMEOUT 100
 
 AsyncWebServer server(4200);
 AsyncEventSource sensorReadings("/SensorReadings");
@@ -44,11 +47,15 @@ int lastSteadyStateLeft = LOW;
 int lastFlickerableStateLeft = LOW;
 int currentStateLeft;
 unsigned long lastDebounceTimeLeft = 0;
+bool leftSenden = false;
+int lastLeftSendTime = 0;
 
 int lastSteadyStateRight = LOW;
 int lastFlickerableStateRight = LOW;
 int currentStateRight;
 unsigned long lastDebounceTimeRight = 0;
+bool rightSenden = false;
+int lastRightSendTime = 0;
 
 void initWiFi()
 {
@@ -227,8 +234,20 @@ void loop()
 
     if (lastSteadyStateLeft == HIGH && currentStateLeft == LOW)
     {
-      direction.send("left", "direction", millis());
+      leftSenden = true;
     }
+
+    if (leftSenden && (millis() - lastLeftSendTime > DIRECTION_TIMEOUT))
+    {
+      direction.send("left", "direction", millis());
+      lastLeftSendTime = millis();
+    }
+
+    if (lastSteadyStateLeft == LOW && currentStateLeft == HIGH)
+    {
+      leftSenden = false;
+    }
+
     lastSteadyStateLeft = currentStateLeft;
   }
 
@@ -237,8 +256,21 @@ void loop()
 
     if (lastSteadyStateRight == HIGH && currentStateRight == LOW)
     {
-      direction.send("right", "direction", millis());
+      rightSenden = true;
+      Serial.println("RightButtonPressed");
     }
+
+    if (rightSenden && (millis() - lastRightSendTime > DIRECTION_TIMEOUT))
+    {
+      direction.send("right", "direction", millis());
+      lastRightSendTime = millis();
+    }
+
+    if (lastSteadyStateRight == LOW && currentStateRight == HIGH)
+    {
+      rightSenden = false;
+    }
+
     lastSteadyStateRight = currentStateRight;
   }
 }
