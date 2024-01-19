@@ -1,19 +1,17 @@
-import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_DIRECTION_URL } from "./SensorUrls";
 import { SensorStates } from "./SensorState";
+import { SensorHandler } from "./SensorHandler";
 
-export class SensorDirectionHandler {
+export class SensorDirectionHandler extends SensorHandler {
     private state = SensorStates.DISCONNECTED
-
-    private constructor() {
-        this.initialize();
-    }
-
     private static instance: SensorDirectionHandler | undefined;
     private subscribers: ((data: any) => void)[] = [];
-    private source = new ReconnectingEventSource(SENSOR_DIRECTION_URL);
     private visibilityHandler = new ButtonVisibilityHandler();
+
+    private constructor() {
+        super(SENSOR_DIRECTION_URL);
+    }
 
     public static getInstance(): SensorDirectionHandler {
         if (!this.instance) {
@@ -27,8 +25,8 @@ export class SensorDirectionHandler {
         this.subscribers.push(callback);
     };
 
-    private initialize() {
-        this.source.addEventListener('open', (_) => {
+    protected initialize() {
+        this.eventSource?.addEventListener('open', (_) => {
             if (this.state === SensorStates.CONNECTED) {
                 return;
             }
@@ -37,7 +35,7 @@ export class SensorDirectionHandler {
             this.visibilityHandler.setVisibility('rotate-right-button', false);
         });
 
-        this.source.addEventListener('error', (e: any) => {
+        this.eventSource?.addEventListener('error', (e: any) => {
             if (e.target.readyState != EventSource.OPEN) {
                 if (this.state === SensorStates.DISCONNECTED) {
                     return;
@@ -48,7 +46,7 @@ export class SensorDirectionHandler {
             }
         });
 
-        this.source.addEventListener('direction', (e: any) => {
+        this.eventSource?.addEventListener('direction', (e: any) => {
             console.log("direction", e.data);
             this.subscribers.forEach(c => c(e.data));
         });

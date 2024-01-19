@@ -1,3 +1,4 @@
+import { ConnectionHandler } from "../sensor/ConnectionHandler";
 import { ButtonClickHandler } from "./ButtonClickHandler";
 import { ButtonVisibilityHandler } from "./ButtonVisibilityHandler";
 import { ButtonEvent } from "./buttonEvents";
@@ -11,6 +12,10 @@ registerButton('rotate-right-button');
 registerButton('reset-button');
 registerButton('connect-button');
 registerButton('shoot-button');
+registerButton('disconnect-button');
+
+// hack to initialize connection handler
+ConnectionHandler.getInstance();
 
 function registerButton(buttonId: string) {
     const button: HTMLElement | null = document.querySelector(`#${buttonId}`);

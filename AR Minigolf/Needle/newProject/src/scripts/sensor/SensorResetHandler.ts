@@ -1,18 +1,17 @@
-import ReconnectingEventSource from "reconnecting-eventsource";
 import { ButtonVisibilityHandler } from "../buttons/ButtonVisibilityHandler";
 import { SENSOR_RESET_URL } from "./SensorUrls";
 import { SensorStates } from "./SensorState";
+import { SensorHandler } from "./SensorHandler";
 
-export class SensorResetHandler {
+export class SensorResetHandler extends SensorHandler {
     private state = SensorStates.DISCONNECTED
 
     private constructor() {
-        this.initialize();
+        super(SENSOR_RESET_URL)
     }
 
     private static instance: SensorResetHandler | undefined;
     private subscribers: (() => void)[] = [];
-    private source = new ReconnectingEventSource(SENSOR_RESET_URL);
     private visibilityHandler = new ButtonVisibilityHandler();
 
     public static getInstance(): SensorResetHandler {
@@ -27,8 +26,8 @@ export class SensorResetHandler {
         this.subscribers.push(callback);
     };
 
-    private initialize() {
-        this.source.addEventListener('open', (_) => {
+    protected initialize() {
+        this.eventSource?.addEventListener('open', (_) => {
             if (this.state === SensorStates.CONNECTED) {
                 return;
             }
@@ -36,7 +35,7 @@ export class SensorResetHandler {
             this.visibilityHandler.setVisibility('reset-button', false);
         });
 
-        this.source.addEventListener('error', (e: any) => {
+        this.eventSource?.addEventListener('error', (e: any) => {
             if (e.target.readyState != EventSource.OPEN) {
                 if (this.state === SensorStates.DISCONNECTED) {
                     return;
@@ -46,7 +45,7 @@ export class SensorResetHandler {
             }
         });
 
-        this.source.addEventListener('reset', (e: any) => {
+        this.eventSource?.addEventListener('reset', (e: any) => {
             console.log("reset", e.data);
             this.subscribers.forEach(c => c());
         });

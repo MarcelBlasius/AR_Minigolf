@@ -17,3 +17,7 @@
 .icon-button .large {
     background-color: red;
 }
+
+.hide {
+    display: none;
+}
