@@ -17,8 +17,8 @@
 #define BUTTON_PIN_RIGHT 32  // weiß
 #define DEBOUNCE_TIME 100
 #define MAX_SWING_TIME 10000
-#define MIN_ACC 10
-#define EARLIST_SWING_FINISH 2000
+#define MIN_ACC 2
+#define EARLIST_SWING_FINISH 1000
 #define DIRECTION_TIMEOUT 100
 
 AsyncWebServer server(4200);
