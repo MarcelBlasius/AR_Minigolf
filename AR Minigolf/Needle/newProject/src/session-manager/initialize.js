@@ -1,4 +1,6 @@
-const url = "http://localhost:8080/session"
+import { DB_BASE_URL } from '../constants';
+
+const url = `${DB_BASE_URL}/session`;
 const addButton = document.getElementById('add-button');
 
 const player = prompt("Please enter your name:", "");
@@ -118,7 +120,7 @@ function createPlayButton(player, session) {
 
         const putDataJSON = JSON.stringify(putData);
         xhr.send(putDataJSON);
-        
+
     });
 
     return button;

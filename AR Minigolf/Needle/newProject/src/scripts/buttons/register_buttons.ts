@@ -13,6 +13,7 @@ registerButton('reset-button');
 registerButton('connect-button');
 registerButton('shoot-button');
 registerButton('disconnect-button');
+registerButton('scoreboard-button');
 
 // hack to initialize connection handler
 ConnectionHandler.getInstance();

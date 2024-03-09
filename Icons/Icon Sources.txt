@@ -6,3 +6,4 @@ Rotate right: https://www.svgrepo.com/svg/522649/rotate-right
 Connected: https://www.svgrepo.com/svg/376004/connected
 Disconnected: https://www.svgrepo.com/svg/311104/plug-disconnected
 Circle Up: https://www.svgrepo.com/svg/441130/circle-arrow-up
+Score Board: https://www.svgrepo.com/svg/120019/scoreboard

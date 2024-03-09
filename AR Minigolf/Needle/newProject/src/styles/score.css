@@ -1,0 +1,49 @@
+#scoreboard {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f2f2f2;
+    border-collapse: collapse;
+    width: 75%;
+    max-width: 800px;
+    max-height: 800px;
+    overflow: scroll;
+    border-radius: 10px;
+}
+
+#scoreboard tr {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#scoreboard tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#scoreboard tr:hover {
+    background-color: #eaeaea;
+}
+
+#scoreboard table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+#scoreboard th {
+    width: 100px;
+}
+
+#scoreboard td {
+    height: 50px;
+}
+
+.score {
+    display: flex;
+    flex-direction: row;
+}
+
+.score .icon-button {
+    margin-left: 25px;
+    padding-bottom: 10px;
+}

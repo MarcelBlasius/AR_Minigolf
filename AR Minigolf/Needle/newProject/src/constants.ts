@@ -1,0 +1,1 @@
+export const DB_BASE_URL = 'http://192.168.178.30:8080';
