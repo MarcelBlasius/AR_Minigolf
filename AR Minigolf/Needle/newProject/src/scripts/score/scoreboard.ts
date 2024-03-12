@@ -17,13 +17,19 @@ handler.subscribe('scoreboard-button', (event) => {
             scoreboard.style.visibility = 'hidden';
         } else {
             scoreboard.style.visibility = 'visible';
+            startBuildingLoop();
         }
     }
 });
 
 async function startBuildingLoop() {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const scoreboard: HTMLElement | null = document.querySelector('#scoreboard');
+    if (scoreboard?.style.visibility === 'hidden') {
+        return;
+    }
+
     await buildScoreBoard();
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await startBuildingLoop();
 }
 
