@@ -18,7 +18,18 @@ export class ShootBall extends Behaviour {
     @serializable(Rigidbody)
     body?: Rigidbody
 
+    @serializable()
+    public color: string = '';
+
     start(): void {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ball = urlParams.get('ball');
+        if (ball !== this.color) {
+            console.log(`destroyed direction indicator for ${this.color.toUpperCase()} ball`);
+            this.directionIndicator?.removeFromParent();
+            return;
+        }
+
         this.registerSensorEvents();
         this.registerButtonClick();
     }

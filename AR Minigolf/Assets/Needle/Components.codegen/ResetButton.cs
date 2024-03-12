@@ -10,6 +10,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public UnityEngine.GameObject @reference;
 		public UnityEngine.GameObject @object;
 		public UnityEngine.Rigidbody @body;
+		public string @color = "";
 		public void start(){}
 	}
 }

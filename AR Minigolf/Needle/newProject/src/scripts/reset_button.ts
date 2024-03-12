@@ -1,4 +1,4 @@
-import { Behaviour, Rigidbody, serializeable } from "@needle-tools/engine"
+import { Behaviour, Rigidbody, serializable, serializeable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
@@ -15,10 +15,19 @@ export class ResetButton extends Behaviour {
   @serializeable(Rigidbody)
   body?: Rigidbody;
 
+  @serializable()
+  public color: string = '';
+
   private scoreManager = ScoreManager.getInstance();
   private clickHandler = ButtonClickHandler.getInstance();
 
   start(): void {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ball = urlParams.get('ball');
+    if (ball !== this.color) {
+      return;
+    }
+
     this.mapButtonClick();
     this.mapGolfClubClick();
   }

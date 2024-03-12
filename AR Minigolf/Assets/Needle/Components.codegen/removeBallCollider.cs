@@ -5,13 +5,11 @@
 
 namespace Needle.Typescript.GeneratedComponents
 {
-	public partial class ShootBall : UnityEngine.MonoBehaviour
+	public partial class removeBallCollider : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.GameObject @directionIndicator;
-		public UnityEngine.Rigidbody @body;
 		public string @color = "";
+		public UnityEngine.SphereCollider @collider;
 		public void start(){}
-		public void update(){}
 	}
 }
 
