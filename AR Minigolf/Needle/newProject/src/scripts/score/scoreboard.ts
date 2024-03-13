@@ -75,7 +75,7 @@ function addRow(score: Score, maxRounds: number) {
     tr.appendChild(td);
     let currentRound = 1;
     for (const scoreElement of score.scoreElementList.sort((a, b) => a.round - b.round)) {
-        if (currentRound < scoreElement.round) {
+        while (currentRound < scoreElement.round) {
             const td = document.createElement('td');
             td.textContent = 'n / a';
             tr.append(td);

@@ -95,6 +95,7 @@ export class ScoreManager {
             player: player,
             scoreElementList: [scoreElement]
         }
+
         await this.scoreClient.createScore(score);
     }
 }
