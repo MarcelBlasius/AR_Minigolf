@@ -1,6 +1,7 @@
 import { ButtonEvent } from "./buttonEvents";
 
 export class ButtonClickHandler {
+    static ButtonEvent: any;
     private constructor() { }
 
     private static instance: ButtonClickHandler | undefined;

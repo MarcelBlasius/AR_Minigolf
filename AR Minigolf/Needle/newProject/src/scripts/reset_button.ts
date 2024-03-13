@@ -18,7 +18,6 @@ export class ResetButton extends Behaviour {
   @serializable()
   public color: string = '';
 
-  private scoreManager = ScoreManager.getInstance();
   private clickHandler = ButtonClickHandler.getInstance();
 
   start(): void {
@@ -58,6 +57,5 @@ export class ResetButton extends Behaviour {
     this.reference.getWorldPosition(refWorldPos);
     this.body?.teleport({ x: refWorldPos.x, y: refWorldPos.y + this.object.scale.y * 0.55, z: refWorldPos.z }, false)
     this.body?.setVelocity(0, 0, 0);
-    this.scoreManager.resetScore();
   }
 }

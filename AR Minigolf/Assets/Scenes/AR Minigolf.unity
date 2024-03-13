@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 42341675}
   - component: {fileID: 42341674}
   - component: {fileID: 42341673}
+  - component: {fileID: 42341683}
   m_Layer: 0
   m_Name: PurpleBall
   m_TagString: Untagged
@@ -344,6 +345,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42341671}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &42341683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42341671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652cc253316c966753e2b253b74db7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  object: {fileID: 42341671}
+  index: 3
 --- !u!1 &90488923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,7 +1832,7 @@ Transform:
   m_GameObject: {fileID: 974084815}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.1464466, z: 0.35355338, w: 0.8535535}
-  m_LocalPosition: {x: -8.09, y: -1.6855768, z: -0.02}
+  m_LocalPosition: {x: -6.77, y: -1.6855768, z: 1.41}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2237,6 +2252,7 @@ GameObject:
   - component: {fileID: 1052584599}
   - component: {fileID: 1052584600}
   - component: {fileID: 1052584601}
+  - component: {fileID: 1052584602}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -2439,6 +2455,20 @@ MonoBehaviour:
   directionIndicator: {fileID: 1000573578}
   body: {fileID: 1052584595}
   color: red
+--- !u!114 &1052584602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052584588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652cc253316c966753e2b253b74db7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  object: {fileID: 1052584588}
+  index: 0
 --- !u!1 &1066687040
 GameObject:
   m_ObjectHideFlags: 0
@@ -2458,6 +2488,7 @@ GameObject:
   - component: {fileID: 1066687044}
   - component: {fileID: 1066687043}
   - component: {fileID: 1066687042}
+  - component: {fileID: 1066687052}
   m_Layer: 0
   m_Name: GreenBall
   m_TagString: Untagged
@@ -2660,6 +2691,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066687040}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1066687052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066687040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652cc253316c966753e2b253b74db7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  object: {fileID: 1066687040}
+  index: 2
 --- !u!1 &1094258431
 GameObject:
   m_ObjectHideFlags: 0
@@ -2679,6 +2724,7 @@ GameObject:
   - component: {fileID: 1094258435}
   - component: {fileID: 1094258434}
   - component: {fileID: 1094258443}
+  - component: {fileID: 1094258444}
   m_Layer: 0
   m_Name: BlueBall
   m_TagString: Untagged
@@ -2881,6 +2927,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: blue
   collider: {fileID: 1094258440}
+--- !u!114 &1094258444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094258431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652cc253316c966753e2b253b74db7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  object: {fileID: 1094258431}
+  index: 1
 --- !u!114 &1216498897
 MonoBehaviour:
   m_ObjectHideFlags: 0

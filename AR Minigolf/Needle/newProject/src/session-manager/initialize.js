@@ -71,7 +71,7 @@ function createSessionEntry(name, session) {
     container.appendChild(div);
 }
 
-function createPlayButton(player, session) {
+function createPlayButton(player, sessionInfo) {
     const button = document.createElement('button');
     button.className = 'icon-button play-button';
 
@@ -97,13 +97,29 @@ function createPlayButton(player, session) {
 
     button.appendChild(svg);
 
-    // TODO retrieve session before put
     button.addEventListener("click", async () => {
+
+        const session = await getSession(sessionInfo.id);
+        // player is existing
+        if (session.players.includes(player)) {
+            const index = session.players.indexOf(player);
+            const ball = getBallColor(index + 1);
+            window.location.href = `/minigolf.html?sessionId=${session.id}&playerId=${player}&ball=${ball}`;
+            return;
+        }
+
+        // new player
+        const players = [...new Set([...session.players, player])];
         const putData = {
             id: session.id,
             name: session.name,
-            players: [...new Set([...session.players, player])],
+            players,
         };
+
+        await postBallPosition(session.id, player);
+
+        const ball = getBallColor(putData.players.length);
+
         console.log('Put data', putData);
         const xhr = new XMLHttpRequest();
         xhr.open('PUT', url, true);
@@ -114,7 +130,7 @@ function createPlayButton(player, session) {
                 const putData = JSON.parse(xhr.responseText);
                 console.log('Updated session', putData);
                 console.log(`play button clicked for session ${session.id}`);
-                window.location.href = `/minigolf.html?sessionId=${session.id}&playerId=${player}`;
+                window.location.href = `/minigolf.html?sessionId=${session.id}&playerId=${player}&ball=${ball}`;
             }
         };
 
@@ -124,6 +140,61 @@ function createPlayButton(player, session) {
     });
 
     return button;
+}
+
+async function getSession(id) {
+    try {
+        const response = await fetch(url);
+        const responseData = await response.json();
+        console.log('received sessions', responseData);
+        for (const session of responseData) {
+            if (session.id === id) {
+                return session;
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching sessions:', error);
+    }
+}
+
+async function postBallPosition(sessionId, player) {
+    const url = `${DB_BASE_URL}/positions`;
+    const ballPosition = {
+        id: null,
+        sessionId: sessionId,
+        player,
+        x: 0,
+        y: 0,
+        z: 0
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ballPosition)
+        });
+
+        if (response.ok) {
+            console.log('Ball position posted successfully');
+        } else {
+            console.error('Failed to post ball position');
+        }
+    } catch (error) {
+        console.error('Error posting ball position:', error);
+    }
+}
+
+function getBallColor(playerCount) {
+    const colors = ['red', 'blue', 'green', 'purple'];
+
+    if (playerCount > 4) {
+        return 'spectator';
+    }
+
+    return colors[playerCount - 1];
 }
 
 function createDeleteButton() {
@@ -159,19 +230,23 @@ function createDeleteButton() {
     button.appendChild(svg);
 
     button.addEventListener("click", async () => {
-        const sessionId = button.parentElement.parentElement.sessionId
+        const sessionId = button.parentElement.parentElement.sessionId;
         console.log('delete button clicked for session', sessionId);
-        const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', `${url}/${sessionId}`, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                button.parentElement.remove();
+        fetch(`${url}/${sessionId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
             }
-        };
-
-        xhr.send();
+        })
+            .then(response => {
+                if (response.ok) {
+                    button.parentElement.remove();
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting session:', error);
+            });
     });
 
     return button;
