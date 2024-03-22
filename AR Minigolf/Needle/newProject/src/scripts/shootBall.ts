@@ -8,6 +8,8 @@ import { PowerBarHandler } from "./power-bar/PowerBarHandler";
 import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
+import { DB_BASE_URL } from "../constants";
+import { BlueBallPosition } from "./ballposition/redBallPosition";
 
 export class ShootBall extends Behaviour {
     private shot: boolean = false;
@@ -37,6 +39,8 @@ export class ShootBall extends Behaviour {
 
         this.registerSensorEvents();
         this.registerButtonClick();
+
+        setInterval(this.getOtherBallPositions, 100);
     }
 
     update(): void {
@@ -127,5 +131,58 @@ export class ShootBall extends Behaviour {
         if (!this.directionIndicator) throw new Error('direction indicator is undefined');
 
         this.directionIndicator.visible = visible;
+    }
+
+    private async getOtherBallPositions() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ownColor = urlParams.get('ball')
+        const sessionId = urlParams.get('session') as string
+        const session = await this.getSession(sessionId)
+
+        const ballPositions = await this.ballPosotionClient.getBallPositions();
+
+        ballPositions.forEach((position) => {
+            const color = this.getBallColor(session.players.indexOf(position.player))
+            if (color != ownColor) {
+
+                this.changeDisplayedBallPosition(color, position.x, position.y, position.z)
+            }
+        });
+    }
+
+    private async getSession(id: string): Promise<any> {
+        try {
+            const response = await fetch(`${DB_BASE_URL}/session`);
+            const responseData = await response.json();
+            console.log('received sessions', responseData);
+            for (const session of responseData) {
+                if (session.id === id) {
+                    return session;
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching sessions:', error);
+        }
+    }
+
+    private getBallColor(playerIndex) {
+        const colors = ['red', 'blue', 'green', 'purple'];
+
+        return colors[playerIndex];
+    }
+
+    private changeDisplayedBallPosition(color: string, x: number, y: number, z: number) {
+
+        //Todo access other Balls either through seperate script or gameobject directly?
+        switch (color) {
+            case "blue":
+                break;
+            case "green":
+                break;
+            case "red":
+                break;
+            case "purple":
+                break;
+        }
     }
 }
