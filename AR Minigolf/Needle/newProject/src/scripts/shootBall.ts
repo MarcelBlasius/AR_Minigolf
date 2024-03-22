@@ -6,12 +6,17 @@ import { ButtonEvent } from "./buttons/buttonEvents";
 import { SensorReadingsHandler } from "./sensor/SensorReadingsHandler";
 import { PowerBarHandler } from "./power-bar/PowerBarHandler";
 import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
+import { BallPositionClient } from "./ballposition/ballposition.client";
+import { BallPosition } from "./ballposition/ballposition.model";
+
 export class ShootBall extends Behaviour {
     private shot: boolean = false;
     private scoreManager = ScoreManager.getInstance();
     private clickHandler = ButtonClickHandler.getInstance();
     private powerBarHandler = new PowerBarHandler();
     private buttonVisibilityHandler = new ButtonVisibilityHandler();
+    private ballPosotionClient = new BallPositionClient();
+
     @serializable(Object3D)
     directionIndicator?: Object3D;
 
@@ -45,11 +50,28 @@ export class ShootBall extends Behaviour {
         }
 
         const velo = this.body.getVelocity();
+
         if (Math.abs(velo.x + velo.y + velo.z) < 0.01) {
             this.shot = false;
             // TODO show correct shooting mode after shot
             this.setDirectionIndiactorVisibility(true);
             //   this.buttonVisibilityHandler.showShootRelatedButtons(true);
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('sessionId');
+        const playerId = urlParams.get('playerId');
+
+        if (this.shot) {
+            const ballPosition: BallPosition = {
+                id: null,
+                sessionId: sessionId as string,
+                player: playerId as string,
+                x: this.body?.worldPosition.x,
+                y: this.body?.worldPosition.y,
+                z: this.body?.worldPosition.z,
+            };
+            this.ballPosotionClient.updateBallPosition(ballPosition);
         }
     }
     private registerButtonClick() {

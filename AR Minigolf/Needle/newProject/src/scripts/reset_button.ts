@@ -4,6 +4,8 @@ import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
 import { SensorResetHandler } from "./sensor/SensorResetHandler";
+import { BallPositionClient } from "./ballposition/ballposition.client";
+import { BallPosition } from "./ballposition/ballposition.model";
 
 export class ResetButton extends Behaviour {
   @serializeable(Object3D)
@@ -19,6 +21,7 @@ export class ResetButton extends Behaviour {
   public color: string = '';
 
   private clickHandler = ButtonClickHandler.getInstance();
+  private ballPostionClient = new BallPositionClient();
 
   start(): void {
     const urlParams = new URLSearchParams(window.location.search);
@@ -57,5 +60,19 @@ export class ResetButton extends Behaviour {
     this.reference.getWorldPosition(refWorldPos);
     this.body?.teleport({ x: refWorldPos.x, y: refWorldPos.y + this.object.scale.y * 0.55, z: refWorldPos.z }, false)
     this.body?.setVelocity(0, 0, 0);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('sessionId');
+    const playerId = urlParams.get('playerId');
+
+    const ballposition: BallPosition = {
+      id: null,
+      sessionId: sessionId as string,
+      player: playerId as string,
+      x: 0,
+      y: 0,
+      z: 0
+    }
+    this.ballPostionClient.updateBallPosition(ballposition)
   }
 }
