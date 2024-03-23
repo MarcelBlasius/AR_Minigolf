@@ -19,9 +19,10 @@ export class SyncBalls extends Behaviour {
     purpleBall?: Object3D
 
     async start() {
+        this.getOtherBallPositions(true);
         setInterval(this.getOtherBallPositions.bind(this), 50);
     }
-    private async getOtherBallPositions() {
+    private async getOtherBallPositions(includeOwn = false) {
         const urlParams = new URLSearchParams(window.location.search);
         const ownColor = urlParams.get('ball');
         const sessionId = urlParams.get('sessionId') as string
@@ -35,6 +36,9 @@ export class SyncBalls extends Behaviour {
             if (color != ownColor) {
 
                 this.changeDisplayedBallPosition(color, position.x, position.y, position.z);
+            }
+            if (includeOwn && color == ownColor) {
+                this.changeDisplayedBallPosition(color, position.x, position.y, position.z)
             }
         });
     }
