@@ -7,6 +7,7 @@ export class DisplayedBallPosition extends Behaviour {
     body?: Object3D
 
     setPosition(x: number, y: number, z: number) {
+        console.log('POSITION:', x, y, z)
         this.body?.position.setX(x);
         this.body?.position.setY(y);
         this.body?.position.setZ(z);

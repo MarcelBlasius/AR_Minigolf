@@ -8,8 +8,6 @@ import { PowerBarHandler } from "./power-bar/PowerBarHandler";
 import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
-import { DB_BASE_URL } from "../constants";
-import { DisplayedBallPosition } from "./ballposition/displayedBallPosition";
 
 export class ShootBall extends Behaviour {
     private shot: boolean = false;
@@ -40,7 +38,6 @@ export class ShootBall extends Behaviour {
         this.registerSensorEvents();
         this.registerButtonClick();
 
-        setInterval(this.getOtherBallPositions.bind(this), 100);
         setInterval(this.uploadBallPosition.bind(this), 100) 
     }
 
@@ -116,66 +113,6 @@ export class ShootBall extends Behaviour {
         if (!this.directionIndicator) throw new Error('direction indicator is undefined');
 
         this.directionIndicator.visible = visible;
-    }
-
-    private async getOtherBallPositions() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const ownColor = urlParams.get('ball');
-        const sessionId = urlParams.get('sessionId') as string
-        const session = await this.getSession(sessionId);
-
-        const ballPositions = await this.ballPosotionClient.getBallPositions();
-
-        ballPositions.forEach((position) => {
-            const index = session.players.indexOf(position.player);
-            const color = this.getBallColor(index);
-            if (color != ownColor) {
-
-                this.changeDisplayedBallPosition(color, position.x, position.y, position.z);
-            }
-        });
-    }
-
-    private async getSession(id: string): Promise<any> {
-        try {
-            const response = await fetch(`${DB_BASE_URL}/session`);
-            const responseData = await response.json();
-            for (const session of responseData) {
-                if (session.id === id) {
-                    return session;
-                }
-            }
-        } catch (error) {
-            console.error('Error fetching sessions:', error);
-        }
-    }
-
-    private getBallColor(playerIndex) {
-        const colors = ['red', 'blue', 'green', 'purple'];
-
-        return colors[playerIndex];
-    }
-
-    private changeDisplayedBallPosition(color: string, x: number, y: number, z: number) {
-
-        switch (color) {
-            case "blue":
-                const blueBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
-                blueBallPosition.setWorldPosition(x,y,z);
-                break;
-            case "green":
-                const greenBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
-                greenBallPosition.setWorldPosition(x,y,z);
-                break;
-            case "red":
-                const redBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
-                redBallPosition.setWorldPosition(x,y,z);
-                break;
-            case "purple":
-                const purpleBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
-                purpleBallPosition.setWorldPosition(x,y,z);
-                break;
-        }
     }
 
     private uploadBallPosition(){

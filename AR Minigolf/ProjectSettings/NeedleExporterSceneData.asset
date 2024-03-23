@@ -32,9 +32,7 @@ MonoBehaviour:
     - ProjectPath: Needle/newProject
     BuilderScene: 
   - Path: Assets/Samples/Needle Engine/PresencePlatformRoomTracking.unity
-    Projects:
-    - ProjectPath: Library/Needle/Sample
+    Projects: []
     BuilderScene: 
   Projects:
   - ProjectPath: Needle/newProject
-  - ProjectPath: Library/Needle/Sample

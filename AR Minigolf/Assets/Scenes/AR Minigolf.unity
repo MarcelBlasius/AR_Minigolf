@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45040476, g: 0.49819732, b: 0.5633183, a: 1}
+  m_IndirectSpecularColor: {r: 0.45040447, g: 0.49819708, b: 0.5633182, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 42341674}
   - component: {fileID: 42341673}
   - component: {fileID: 42341683}
+  - component: {fileID: 42341684}
   m_Layer: 0
   m_Name: PurpleBall
   m_TagString: Untagged
@@ -359,6 +360,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   object: {fileID: 42341671}
   index: 3
+--- !u!114 &42341684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42341671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5264d4556e7c57aa5d202dab78944926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 42341671}
 --- !u!1 &90488923
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,6 +2267,9 @@ GameObject:
   - component: {fileID: 1052584600}
   - component: {fileID: 1052584601}
   - component: {fileID: 1052584602}
+  - component: {fileID: 1052584603}
+  - component: {fileID: 1052584604}
+  - component: {fileID: 1052584605}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -2469,6 +2486,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   object: {fileID: 1052584588}
   index: 0
+--- !u!114 &1052584603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052584588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d70d4407b375d799e1c3f4e12a4ab95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1052584604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052584588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5264d4556e7c57aa5d202dab78944926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 1052584588}
+--- !u!114 &1052584605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052584588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6285bcc4d97ba8a7d721943e2d9c912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueBall: {fileID: 1094258431}
+  redBall: {fileID: 1052584588}
+  greenBall: {fileID: 1066687040}
+  purpleBall: {fileID: 42341671}
 --- !u!1 &1066687040
 GameObject:
   m_ObjectHideFlags: 0
@@ -2489,6 +2547,7 @@ GameObject:
   - component: {fileID: 1066687043}
   - component: {fileID: 1066687042}
   - component: {fileID: 1066687052}
+  - component: {fileID: 1066687053}
   m_Layer: 0
   m_Name: GreenBall
   m_TagString: Untagged
@@ -2705,6 +2764,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   object: {fileID: 1066687040}
   index: 2
+--- !u!114 &1066687053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066687040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5264d4556e7c57aa5d202dab78944926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 1066687040}
 --- !u!1 &1094258431
 GameObject:
   m_ObjectHideFlags: 0
@@ -2725,6 +2797,7 @@ GameObject:
   - component: {fileID: 1094258434}
   - component: {fileID: 1094258443}
   - component: {fileID: 1094258444}
+  - component: {fileID: 1094258445}
   m_Layer: 0
   m_Name: BlueBall
   m_TagString: Untagged
@@ -2941,6 +3014,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   object: {fileID: 1094258431}
   index: 1
+--- !u!114 &1094258445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094258431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5264d4556e7c57aa5d202dab78944926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 1094258431}
 --- !u!114 &1216498897
 MonoBehaviour:
   m_ObjectHideFlags: 0
