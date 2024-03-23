@@ -1,4 +1,4 @@
-import { Behaviour, Rigidbody, serializable } from "@needle-tools/engine"
+import { Behaviour, GameObject, Rigidbody, serializable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
@@ -9,7 +9,6 @@ import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
 import { DB_BASE_URL } from "../constants";
-import { BlueBallPosition } from "./ballposition/redBallPosition";
 
 export class ShootBall extends Behaviour {
     private shot: boolean = false;
@@ -41,6 +40,7 @@ export class ShootBall extends Behaviour {
         this.registerButtonClick();
 
         setInterval(this.getOtherBallPositions, 100);
+        setInterval(this.uploadBallPosition, 100) 
     }
 
     update(): void {
@@ -60,22 +60,6 @@ export class ShootBall extends Behaviour {
             // TODO show correct shooting mode after shot
             this.setDirectionIndiactorVisibility(true);
             //   this.buttonVisibilityHandler.showShootRelatedButtons(true);
-        }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('sessionId');
-        const playerId = urlParams.get('playerId');
-
-        if (this.shot) {
-            const ballPosition: BallPosition = {
-                id: null,
-                sessionId: sessionId as string,
-                player: playerId as string,
-                x: this.body?.worldPosition.x,
-                y: this.body?.worldPosition.y,
-                z: this.body?.worldPosition.z,
-            };
-            this.ballPosotionClient.updateBallPosition(ballPosition);
         }
     }
     private registerButtonClick() {
@@ -183,6 +167,24 @@ export class ShootBall extends Behaviour {
                 break;
             case "purple":
                 break;
+        }
+    }
+
+    private uploadBallPosition(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('sessionId');
+        const playerId = urlParams.get('playerId');
+
+        if (this.shot) {
+            const ballPosition: BallPosition = {
+                id: null,
+                sessionId: sessionId as string,
+                player: playerId as string,
+                x: this.body?.worldPosition.x as number,
+                y: this.body?.worldPosition.y as number,
+                z: this.body?.worldPosition.z as number,
+            };
+            this.ballPosotionClient.updateBallPosition(ballPosition);
         }
     }
 }
