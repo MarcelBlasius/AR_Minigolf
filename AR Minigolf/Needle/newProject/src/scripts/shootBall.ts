@@ -29,6 +29,8 @@ export class ShootBall extends Behaviour {
     public color: string = '';
 
     start(): void {
+        this.getOtherBallPositions(true);
+
         const urlParams = new URLSearchParams(window.location.search);
         const ball = urlParams.get('ball');
         if (ball !== this.color) {
@@ -118,7 +120,7 @@ export class ShootBall extends Behaviour {
         this.directionIndicator.visible = visible;
     }
 
-    private async getOtherBallPositions() {
+    private async getOtherBallPositions(includeOwn: boolean = false) {
         const urlParams = new URLSearchParams(window.location.search);
         const ownColor = urlParams.get('ball')
         const sessionId = urlParams.get('session') as string
@@ -130,6 +132,9 @@ export class ShootBall extends Behaviour {
             const color = this.getBallColor(session.players.indexOf(position.player))
             if (color != ownColor) {
 
+                this.changeDisplayedBallPosition(color, position.x, position.y, position.z)
+            }
+            if (includeOwn && color == ownColor) {
                 this.changeDisplayedBallPosition(color, position.x, position.y, position.z)
             }
         });
