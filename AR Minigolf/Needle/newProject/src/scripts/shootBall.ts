@@ -9,6 +9,7 @@ import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
 import { DB_BASE_URL } from "../constants";
+import { DisplayedBallPosition } from "./ballposition/displayedBallPosition";
 
 export class ShootBall extends Behaviour {
     private shot: boolean = false;
@@ -157,15 +158,22 @@ export class ShootBall extends Behaviour {
 
     private changeDisplayedBallPosition(color: string, x: number, y: number, z: number) {
 
-        //Todo access other Balls either through seperate script or gameobject directly?
         switch (color) {
             case "blue":
+                const blueBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
+                blueBallPosition.setWorldPosition(x,y,z);
                 break;
             case "green":
+                const greenBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
+                greenBallPosition.setWorldPosition(x,y,z);
                 break;
             case "red":
+                const redBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
+                redBallPosition.setWorldPosition(x,y,z);
                 break;
             case "purple":
+                const purpleBallPosition: DisplayedBallPosition = new DisplayedBallPosition();
+                purpleBallPosition.setWorldPosition(x,y,z);
                 break;
         }
     }

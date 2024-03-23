@@ -1,6 +1,6 @@
 import { Behaviour, Rigidbody, serializable } from "@needle-tools/engine";
 
-export abstract class BallPosition extends Behaviour {
+export class DisplayedBallPosition extends Behaviour {
 
     @serializable(Rigidbody)
     body?: Rigidbody
