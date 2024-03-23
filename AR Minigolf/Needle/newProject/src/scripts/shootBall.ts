@@ -42,8 +42,8 @@ export class ShootBall extends Behaviour {
         this.registerSensorEvents();
         this.registerButtonClick();
 
-        setInterval(this.getOtherBallPositions, 100);
-        setInterval(this.uploadBallPosition, 100) 
+        setInterval(this.getOtherBallPositions.bind(this), 100);
+        setInterval(this.uploadBallPosition.bind(this), 100) 
     }
 
     update(): void {
@@ -122,17 +122,18 @@ export class ShootBall extends Behaviour {
 
     private async getOtherBallPositions(includeOwn: boolean = false) {
         const urlParams = new URLSearchParams(window.location.search);
-        const ownColor = urlParams.get('ball')
-        const sessionId = urlParams.get('session') as string
-        const session = await this.getSession(sessionId)
+        const ownColor = urlParams.get('ball');
+        const sessionId = urlParams.get('sessionId') as string
+        const session = await this.getSession(sessionId);
 
         const ballPositions = await this.ballPosotionClient.getBallPositions();
 
         ballPositions.forEach((position) => {
-            const color = this.getBallColor(session.players.indexOf(position.player))
+            const index = session.players.indexOf(position.player);
+            const color = this.getBallColor(index);
             if (color != ownColor) {
 
-                this.changeDisplayedBallPosition(color, position.x, position.y, position.z)
+                this.changeDisplayedBallPosition(color, position.x, position.y, position.z);
             }
             if (includeOwn && color == ownColor) {
                 this.changeDisplayedBallPosition(color, position.x, position.y, position.z)
@@ -144,7 +145,6 @@ export class ShootBall extends Behaviour {
         try {
             const response = await fetch(`${DB_BASE_URL}/session`);
             const responseData = await response.json();
-            console.log('received sessions', responseData);
             for (const session of responseData) {
                 if (session.id === id) {
                     return session;
