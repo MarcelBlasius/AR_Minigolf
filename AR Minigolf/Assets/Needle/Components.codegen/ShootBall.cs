@@ -9,6 +9,7 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.GameObject @directionIndicator;
 		public UnityEngine.Rigidbody @body;
+		public UnityEngine.GameObject @startRef;
 		public string @color = "";
 		public void start(){}
 		public void update(){}

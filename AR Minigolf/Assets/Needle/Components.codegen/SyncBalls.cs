@@ -7,6 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class SyncBalls : UnityEngine.MonoBehaviour
 	{
+		public UnityEngine.GameObject @startRef;
 		public UnityEngine.GameObject @blueBall;
 		public UnityEngine.GameObject @redBall;
 		public UnityEngine.GameObject @greenBall;

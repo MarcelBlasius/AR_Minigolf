@@ -247,6 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionIndicator: {fileID: 525246064}
   body: {fileID: 42341679}
+  startRef: {fileID: 1047117172}
   color: purple
 --- !u!54 &42341679
 Rigidbody:
@@ -2071,7 +2072,7 @@ Transform:
   m_GameObject: {fileID: 1038014667}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.1464466, z: 0.35355338, w: 0.8535535}
-  m_LocalPosition: {x: -6.069, y: -1.6855768, z: 2.8630955}
+  m_LocalPosition: {x: -6, y: 2, z: 2}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2471,6 +2472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionIndicator: {fileID: 1000573578}
   body: {fileID: 1052584595}
+  startRef: {fileID: 1047117172}
   color: red
 --- !u!114 &1052584602
 MonoBehaviour:
@@ -2523,6 +2525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6285bcc4d97ba8a7d721943e2d9c912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startRef: {fileID: 1047117172}
   blueBall: {fileID: 1094258431}
   redBall: {fileID: 1052584588}
   greenBall: {fileID: 1066687040}
@@ -2651,6 +2654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionIndicator: {fileID: 1624354154}
   body: {fileID: 1066687048}
+  startRef: {fileID: 1047117172}
   color: green
 --- !u!54 &1066687048
 Rigidbody:
@@ -2887,6 +2891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionIndicator: {fileID: 1029657854}
   body: {fileID: 1094258439}
+  startRef: {fileID: 1047117172}
   color: blue
 --- !u!54 &1094258439
 Rigidbody:

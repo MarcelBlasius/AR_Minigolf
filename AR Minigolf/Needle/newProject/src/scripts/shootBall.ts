@@ -8,6 +8,7 @@ import { PowerBarHandler } from "./power-bar/PowerBarHandler";
 import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
+import { GetTranslatedBallPosition } from "./utils";
 
 export class ShootBall extends Behaviour {
     private shot: boolean = false;
@@ -22,6 +23,9 @@ export class ShootBall extends Behaviour {
 
     @serializable(Rigidbody)
     body?: Rigidbody
+
+    @serializable(Object3D)
+    startRef?: Object3D
 
     @serializable()
     public color: string = '';
@@ -38,7 +42,7 @@ export class ShootBall extends Behaviour {
         this.registerSensorEvents();
         this.registerButtonClick();
 
-        setInterval(this.uploadBallPosition.bind(this), 100) 
+        setInterval(this.uploadBallPosition.bind(this), 50) 
     }
 
     update(): void {
@@ -129,6 +133,8 @@ export class ShootBall extends Behaviour {
                 y: this.body?.worldPosition.y as number,
                 z: this.body?.worldPosition.z as number,
             };
+
+            GetTranslatedBallPosition(this.startRef!, ballPosition);
             this.ballPosotionClient.updateBallPosition(ballPosition);
         }
     }
