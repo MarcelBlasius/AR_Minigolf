@@ -60,16 +60,28 @@ export class ScoreManager {
     }
 
     subscribe(callback: (score: number) => void) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ball = urlParams.get('ball');
+        if (ball === 'spectator'){
+            return;
+        }
+
         this.subscriber.push(callback);
         this.getScoreNumberByPlayer().then(s => callback(s));
     }
 
     async notify() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ball = urlParams.get('ball');
+        if (ball === 'spectator') {
+            return;
+        }
+
         const score = await this.getScoreNumberByPlayer();
         this.subscriber.forEach(s => s(score));
     }
 
-    public async getScoreByPlayer(): Promise<Score> {
+    public async getScoreByPlayer(): Promise<Score> {  
         const scores = await this.scoreClient.getScores() ?? [];
         const filtered = scores.filter(score => score.player === this.player);
         if (filtered.length === 0) {
