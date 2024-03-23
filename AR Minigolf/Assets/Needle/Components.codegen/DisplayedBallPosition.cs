@@ -7,7 +7,7 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class DisplayedBallPosition : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.Rigidbody @body;
+		public UnityEngine.GameObject @body;
 		public void setPosition(float @x, float @y, float @z){}
 	}
 }
