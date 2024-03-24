@@ -22,23 +22,23 @@ public class ObjectPositionController {
         this.objectPositionService = objectPositionService;
     }
 
-    @PostMapping("positions")
+    @PostMapping("objectPositions")
     @ResponseStatus(HttpStatus.CREATED)
     public ObjectPositionDTO postObjectPosition(@RequestBody ObjectPositionDTO objectPositionDTO) {
         return this.objectPositionService.post(objectPositionDTO);
     }
-    @GetMapping("positions/{sessionId}")
+    @GetMapping("objectPositions/{sessionId}")
     public List<ObjectPositionDTO> getObjectPosition(@PathVariable String sessionId) {
 
         return this.objectPositionService.getAll(sessionId);
     }
-    @PutMapping("positions")
+    @PutMapping("objectPositions")
     public ObjectPositionDTO putObjectPosition(@RequestBody ObjectPositionDTO ballPositionDTO) {
 
         return this.objectPositionService.put(ballPositionDTO);
     }
 
-    @DeleteMapping("positions/{id}")
+    @DeleteMapping("objectPositions/{id}")
     public Long deleteObjectPosition(@PathVariable String id) {
         return objectPositionService.delete(id);
     }
