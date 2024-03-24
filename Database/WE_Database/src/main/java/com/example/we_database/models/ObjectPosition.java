@@ -14,6 +14,7 @@ public class ObjectPosition {
     private float rotationY;
     private float rotationZ;
 
+    public ObjectPosition(){}
     public ObjectPosition(ObjectId id, String sessionId, Integer name, float x,float y,float z, float rotationX, float rotationY, float rotationZ){
         this.id=id;
         this.sessionId=sessionId;
