@@ -5,7 +5,7 @@ import { BallPositionClient } from "./ballposition/ballposition.client";
 import { GetTranslatedPosition } from "./utils";
 
 export class SyncBalls extends Behaviour {
-    private ballPosotionClient = new BallPositionClient();
+    private ballPositionClient = new BallPositionClient();
 
     @serializable(Object3D)
     startRef?: Object3D
@@ -32,7 +32,7 @@ export class SyncBalls extends Behaviour {
         const sessionId = urlParams.get('sessionId') as string
         const session = await this.getSession(sessionId);
 
-        const ballPositions = await this.ballPosotionClient.getBallPositions();
+        const ballPositions = await this.ballPositionClient.getBallPositions();
 
         ballPositions.forEach((position) => {
             const index = session.players.indexOf(position.player);
@@ -66,22 +66,22 @@ export class SyncBalls extends Behaviour {
 
         return colors[playerIndex];
     }
-    
+
     private changeDisplayedBallPosition(color: string, xi: number, yi: number, zi: number) {
         let { x, y, z } = GetTranslatedPosition(this.startRef!, xi, yi, zi);
 
         switch (color) {
             case "blue":
-                this.blueBall!.position.set(x,y,z);
+                this.blueBall!.position.set(x, y, z);
                 break;
             case "green":
-                this.greenBall!.position.set(x,y,z);
+                this.greenBall!.position.set(x, y, z);
                 break;
             case "red":
-                this.redBall!.position.set(x,y,z);
+                this.redBall!.position.set(x, y, z);
                 break;
             case "purple":
-                this.purpleBall!.position.set(x,y,z);
+                this.purpleBall!.position.set(x, y, z);
                 break;
         }
     }
