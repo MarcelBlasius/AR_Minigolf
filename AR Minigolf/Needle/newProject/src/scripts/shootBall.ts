@@ -42,7 +42,7 @@ export class ShootBall extends Behaviour {
         this.registerSensorEvents();
         this.registerButtonClick();
 
-        setInterval(this.uploadBallPosition.bind(this), 50) 
+        setInterval(this.uploadBallPosition.bind(this), 50)
     }
 
     update(): void {
@@ -119,23 +119,21 @@ export class ShootBall extends Behaviour {
         this.directionIndicator.visible = visible;
     }
 
-    private uploadBallPosition(){
+    private uploadBallPosition() {
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('sessionId');
         const playerId = urlParams.get('playerId');
 
-        if (this.shot) {
-            const ballPosition: BallPosition = {
-                id: null,
-                sessionId: sessionId as string,
-                player: playerId as string,
-                x: this.body?.worldPosition.x as number,
-                y: this.body?.worldPosition.y as number,
-                z: this.body?.worldPosition.z as number,
-            };
+        const ballPosition: BallPosition = {
+            id: null,
+            sessionId: sessionId as string,
+            player: playerId as string,
+            x: this.body?.worldPosition.x as number,
+            y: this.body?.worldPosition.y as number,
+            z: this.body?.worldPosition.z as number,
+        };
 
-            GetTranslatedBallPosition(this.startRef!, ballPosition);
-            this.ballPosotionClient.updateBallPosition(ballPosition);
-        }
+        GetTranslatedBallPosition(this.startRef!, ballPosition);
+        this.ballPosotionClient.updateBallPosition(ballPosition);
     }
 }
