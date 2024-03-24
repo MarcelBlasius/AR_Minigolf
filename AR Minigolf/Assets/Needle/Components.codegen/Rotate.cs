@@ -7,7 +7,6 @@ namespace Needle.Typescript.GeneratedComponents
 {
 	public partial class Rotate : UnityEngine.MonoBehaviour
 	{
-		public UnityEngine.GameObject @object;
 		public void update(){}
 	}
 }

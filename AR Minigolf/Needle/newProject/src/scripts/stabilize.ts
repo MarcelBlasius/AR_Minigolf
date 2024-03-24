@@ -25,7 +25,6 @@ export class Stabilize extends Behaviour {
         this.object.getWorldPosition(global);
 
         this.gameObject.position.copy(global);
-        this.gameObject.position.y = global.y;
         this.gameObject.rotation.y = this.object.rotation.y;
     }
 }
