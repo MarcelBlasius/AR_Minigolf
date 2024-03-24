@@ -1,7 +1,7 @@
 export class ObjectPosition {
     id: string | null;
     sessionId: string;
-    objectId: number;
+    name: number;
     x: number;
     y: number;
     z: number;
@@ -9,10 +9,10 @@ export class ObjectPosition {
     rotationY: number;
     rotationZ: number;
 
-    constructor(id: string | null, objectId: number, sessionId: string, x: number, y: number, z: number, rotationX: number, rotationY: number, rotationZ: number) {
+    constructor(id: string | null, name: number, sessionId: string, x: number, y: number, z: number, rotationX: number, rotationY: number, rotationZ: number) {
         this.id = id;
         this.sessionId = sessionId;
-        this.objectId = objectId;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.z = z;

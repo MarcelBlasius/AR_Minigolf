@@ -10,23 +10,29 @@ export class SyncObjects extends Behaviour {
     @serializable(Object3D)
     startRef?: Object3D
 
+    @serializable(Object3D)
+    object?: Object3D
+
+    @serializable(Number)
+    id: number = 0;
+
     async start() {
-        setInterval(this.getOtherObjectPositions.bind(this), 50);
+        setInterval(this.getOtherObjectPositions.bind(this), 1000);
     }
+
     private async getOtherObjectPositions() {
         const urlParams = new URLSearchParams(window.location.search);
         const ball = urlParams.get('ball');
         const sessionId = urlParams.get('sessionId') as string
 
         const objectPositions = await this.objectPositionClient.getObjectPositions();
-        let position = objectPositions.find(x => x.objectId === this.gameObject.id);
+        let position = objectPositions.find(x => x.name === this.id);
         if (!position && ball === 'red') {
             position = this.CreateObjectPosition(sessionId);
             this.objectPositionClient.createObjectPosition(position);
         }
 
         if (!position) {
-            console.error('Position not found for object', this.gameObject.id);
             return;
         }
 
@@ -39,20 +45,22 @@ export class SyncObjects extends Behaviour {
     }
 
     private CreateObjectPosition(sessionId: string) {
+        let { x, y, z } = GetTranslatedPosition(this.startRef!, this.object!.position.x, this.object!.position.y, this.object!.position.z);
+
         return new ObjectPosition(
             null,
-            this.gameObject.id,
+            this.id,
             sessionId,
-            this.gameObject.position.x,
-            this.gameObject.position.y,
-            this.gameObject.position.z,
-            this.gameObject.rotation.x,
-            this.gameObject.rotation.y,
-            this.gameObject.rotation.z);
+            x,
+            y,
+            z,
+            this.object!.rotation.x,
+            this.object!.rotation.y,
+            this.object!.rotation.z);
     }
 
     private changeDisplayedObjectPosition(xi: number, yi: number, zi: number) {
         let { x, y, z } = GetTranslatedPosition(this.startRef!, xi, yi, zi);
-        this.gameObject.position.set(x, y, z);
+        this.object!.position.set(x, y, z);
     }
 }

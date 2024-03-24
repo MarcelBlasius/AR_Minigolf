@@ -11,6 +11,14 @@ export class Stabilize extends Behaviour {
         if (!this.object.visible) {
             return;
         }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const ball = urlParams.get('ball');
+
+        if (ball !== 'red') {
+            return;
+        }
+
         this.gameObject.visible = true;
 
         const global = new Vector3();

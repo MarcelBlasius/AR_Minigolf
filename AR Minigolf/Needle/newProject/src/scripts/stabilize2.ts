@@ -8,6 +8,12 @@ export class Stabilize2 extends Behaviour {
     update(): void {
         if (!this.object) throw new Error('object is undefined');
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const ball = urlParams.get('ball');
+
+        if (ball !== 'red') {
+            return;
+        }
         if (!this.object.visible) {
             return;
         }

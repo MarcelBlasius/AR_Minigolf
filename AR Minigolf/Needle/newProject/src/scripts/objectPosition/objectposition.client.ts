@@ -3,7 +3,7 @@ import { ObjectPosition } from './objectposition.model';
 
 
 export class ObjectPositionClient {
-    private url = `${DB_BASE_URL}/positions`;
+    private url = `${DB_BASE_URL}/objectPositions`;
 
     public ObjectPositionClient() {
         const urlParams = new URLSearchParams(window.location.search);
