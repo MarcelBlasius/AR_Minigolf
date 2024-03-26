@@ -36,11 +36,16 @@ export class SyncObjects extends Behaviour {
             return;
         }
 
+        if (this.id === 5){
+            console.log(this)
+            console.log('copy', position.rotationX, position.rotationY, position.rotationZ);
+        }
+
         if (ball === 'red') {
             position = this.CreateObjectPosition(sessionId);
             this.objectPositionClient.updateObjectPosition(position);
         } else {
-            this.changeDisplayedObjectPosition(position.x, position.y, position.z)
+            this.changeDisplayedObjectPosition(position.x, position.y, position.z, position.rotationX, position.rotationY, position.rotationZ);
         }
     }
 
@@ -59,8 +64,11 @@ export class SyncObjects extends Behaviour {
             this.object!.rotation.z);
     }
 
-    private changeDisplayedObjectPosition(xi: number, yi: number, zi: number) {
+    private changeDisplayedObjectPosition(xi: number, yi: number, zi: number, rotationX, rotationY, rotationZ) {
         let { x, y, z } = GetTranslatedPosition(this.startRef!, xi, yi, zi);
         this.object!.position.set(x, y, z);
+       // this.object!.rotation.x = rotationX;
+       // this.object!.rotation.y = rotationY;
+       // this.object!.rotation.z = rotationZ;
     }
 }

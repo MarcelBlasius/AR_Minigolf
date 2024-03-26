@@ -8,25 +8,25 @@ export class Stabilize2 extends Behaviour {
     update(): void {
         if (!this.object) throw new Error('object is undefined');
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const ball = urlParams.get('ball');
-
-        if (ball !== 'red') {
-            return;
-        }
         if (!this.object.visible) {
             return;
         }
+
         this.gameObject.visible = true;
 
         const global = new Vector3();
         this.object.getWorldPosition(global);
 
         this.gameObject.position.copy(global);
-        this.gameObject.position.y = global.y + this.gameObject.scale.y * 0.1
-        //this.gameObject.setRotationFromAxisAngle(new Vector3(0, 0, 1), this.context.time.deltaTime * 2);
-        //this.gameObject.position.y = global.y;
-        //this.gameObject.rotation.y = this.object.rotation.y;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const ball = urlParams.get('ball');
+
+        console.log('rotations');
+        console.log(this.gameObject.rotation.x, this.gameObject.rotation.y, this.gameObject.rotation.z);
+        if (ball === 'red') {
+            this.gameObject.rotation.y = this.object.rotation.y;
+        }
     }
 }
 
