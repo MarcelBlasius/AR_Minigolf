@@ -22,6 +22,21 @@ Tree Marker 1:
 ![bottom_right_corner](https://github.com/MarcelBlasius/AR_Minigolf/assets/64688032/54b97cee-0178-4d75-9d8c-7199fb57da93)
 
 # Assets
-* https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
-* https://assetstore.unity.com/packages/3d/props/lowpoly-training-dummy-202311
-* https://assetstore.unity.com/packages/3d/vegetation/trees/free-trees-103208
+https://assetstore.unity.com/packages/3d/props/exterior/low-poly-fence-pack-61661
+https://assetstore.unity.com/packages/3d/environments/fantasy/lowpoly-baker-s-house-26443
+https://assetstore.unity.com/packages/templates/packs/obstacle-course-pack-178169
+https://assetstore.unity.com/packages/3d/vegetation/trees/free-trees-103208
+https://assetstore.unity.com/packages/3d/vegetation/trees/free-trees-103208
+https://assetstore.unity.com/packages/3d/props/lowpoly-training-dummy-202311
+https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
+
+# Icons
+https://www.svgrepo.com/svg/533733/rotate-exclamation
+https://www.svgrepo.com/svg/522647/rotate-left
+https://www.svgrepo.com/svg/522649/rotate-right
+https://www.svgrepo.com/svg/376004/connected
+https://www.svgrepo.com/svg/311104/plug-disconnected
+https://www.svgrepo.com/svg/441130/circle-arrow-up
+https://www.svgrepo.com/svg/120019/scoreboard
+https://www.svgrepo.com/svg/521653/eye-show
+
