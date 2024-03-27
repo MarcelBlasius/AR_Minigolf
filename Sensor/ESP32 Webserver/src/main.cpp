@@ -9,12 +9,10 @@
 #include "SPIFFS.h"
 #include "math.h"
 
-// SensorPin SCU 22
-// SensorPin SDA 21
-#define BUTTON_PIN_SENSOR 25 // grün
-#define BUTTON_PIN_RESET 26  // rot
-#define BUTTON_PIN_LEFT 27   // schwarz
-#define BUTTON_PIN_RIGHT 32  // weiß
+#define BUTTON_PIN_SENSOR 25 // green
+#define BUTTON_PIN_RESET 26  // red
+#define BUTTON_PIN_LEFT 27   // black
+#define BUTTON_PIN_RIGHT 32  // white
 #define DEBOUNCE_TIME 100
 #define MAX_SWING_TIME 10000
 #define MIN_ACC 2
@@ -144,9 +142,11 @@ void setup()
   pinMode(BUTTON_PIN_RESET, INPUT_PULLUP);
   pinMode(BUTTON_PIN_LEFT, INPUT_PULLUP);
   pinMode(BUTTON_PIN_RIGHT, INPUT_PULLUP);
+
   initWiFi();
   initSPIFFS();
   initSensor();
+
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/index.html", "text/html"); });
   server.serveStatic("/", SPIFFS, "/");
@@ -171,6 +171,7 @@ void setup()
       Serial.printf("Client reconnected. Last message ID that it got is: %u\n", client->lastId());
     }
     client->send("Hello Client.", NULL, millis(), 10000); });
+
   server.addHandler(&sensorReadings);
   server.addHandler(&reset);
   server.addHandler(&direction);
@@ -257,7 +258,6 @@ void loop()
     if (lastSteadyStateRight == HIGH && currentStateRight == LOW)
     {
       rightSenden = true;
-      Serial.println("RightButtonPressed");
     }
 
     if (rightSenden && (millis() - lastRightSendTime > DIRECTION_TIMEOUT))
