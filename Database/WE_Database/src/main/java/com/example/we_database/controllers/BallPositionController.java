@@ -15,7 +15,7 @@ import java.util.List;
 public class BallPositionController {
 
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(BallPositionController.class);
     private final BallPositionService ballPositionService;
 
     public BallPositionController(BallPositionService ballPositionService) {

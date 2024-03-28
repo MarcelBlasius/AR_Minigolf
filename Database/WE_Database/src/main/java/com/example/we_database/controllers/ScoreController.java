@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("")
 public class ScoreController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ScoreController.class);
     private final ScoreService scoreService;
 
     public ScoreController(ScoreService scoreService) {

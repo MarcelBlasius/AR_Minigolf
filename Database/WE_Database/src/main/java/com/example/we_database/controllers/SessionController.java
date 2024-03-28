@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("")
 public class SessionController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SessionController.class);
     private final SessionService sessionService;
 
     public SessionController(SessionService sessionService) {
