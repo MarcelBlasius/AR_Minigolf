@@ -1,11 +1,10 @@
-import { Behaviour, GameObject, Rigidbody, serializable } from "@needle-tools/engine"
+import { Behaviour, Rigidbody, serializable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
 import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
 import { SensorReadingsHandler } from "./sensor/SensorReadingsHandler";
 import { PowerBarHandler } from "./power-bar/PowerBarHandler";
-import { ButtonVisibilityHandler } from "./buttons/ButtonVisibilityHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
 import { GetTranslatedBallPosition } from "./utils";
@@ -15,17 +14,16 @@ export class ShootBall extends Behaviour {
     private scoreManager = ScoreManager.getInstance();
     private clickHandler = ButtonClickHandler.getInstance();
     private powerBarHandler = new PowerBarHandler();
-    private buttonVisibilityHandler = new ButtonVisibilityHandler();
     private ballPosotionClient = new BallPositionClient();
 
     @serializable(Object3D)
     directionIndicator?: Object3D;
 
     @serializable(Rigidbody)
-    body?: Rigidbody
+    body?: Rigidbody;
 
     @serializable(Object3D)
-    startRef?: Object3D
+    startRef?: Object3D;
 
     @serializable()
     public color: string = '';
@@ -42,7 +40,7 @@ export class ShootBall extends Behaviour {
         this.registerSensorEvents();
         this.registerButtonClick();
 
-        setInterval(this.uploadBallPosition.bind(this), 50)
+        setInterval(this.uploadBallPosition.bind(this), 50);
     }
 
     update(): void {
@@ -59,9 +57,7 @@ export class ShootBall extends Behaviour {
 
         if (Math.abs(velo.x + velo.y + velo.z) < 0.01) {
             this.shot = false;
-            // TODO show correct shooting mode after shot
             this.setDirectionIndiactorVisibility(true);
-            //   this.buttonVisibilityHandler.showShootRelatedButtons(true);
         }
     }
     private registerButtonClick() {
@@ -102,7 +98,6 @@ export class ShootBall extends Behaviour {
         this.body?.setVelocity(direction);
         this.shot = true;
         this.setDirectionIndiactorVisibility(false);
-        //  this.buttonVisibilityHandler.showShootRelatedButtons(false);
         this.scoreManager.incrementScore();
     }
 

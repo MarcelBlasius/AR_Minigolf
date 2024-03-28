@@ -2,6 +2,7 @@ import { Behaviour } from "@needle-tools/engine"
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
 import { SensorDirectionHandler } from "./sensor/SensorDirectionHandler";
+
 export class RotateBall extends Behaviour {
     private clickHandler = ButtonClickHandler.getInstance();
 

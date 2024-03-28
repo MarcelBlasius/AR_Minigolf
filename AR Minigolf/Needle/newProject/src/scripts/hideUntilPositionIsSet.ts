@@ -1,9 +1,5 @@
-import { Behaviour, Rigidbody, serializable, serializeable } from "@needle-tools/engine"
-import { Object3D, Vector3 } from "three";
-import { ScoreManager } from "./score/scoreManager";
-import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
-import { ButtonEvent } from "./buttons/buttonEvents";
-import { SensorResetHandler } from "./sensor/SensorResetHandler";
+import { Behaviour, serializable, serializeable } from "@needle-tools/engine"
+import { Object3D } from "three";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 
 export class HideUntilPositionIsSet extends Behaviour {

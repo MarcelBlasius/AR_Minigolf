@@ -5,7 +5,7 @@ export class removeBallCollider extends Behaviour {
     public color: string = '';
 
     @serializable(SphereCollider)
-    collider?: SphereCollider
+    collider?: SphereCollider;
 
     start(): void {
         const urlParams = new URLSearchParams(window.location.search);

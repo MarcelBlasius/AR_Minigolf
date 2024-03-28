@@ -1,6 +1,5 @@
 import { ConnectionHandler } from "../sensor/ConnectionHandler";
 import { ButtonClickHandler } from "./ButtonClickHandler";
-import { ButtonVisibilityHandler } from "./ButtonVisibilityHandler";
 import { ButtonEvent } from "./buttonEvents";
 
 console.log('registering ui buttons');

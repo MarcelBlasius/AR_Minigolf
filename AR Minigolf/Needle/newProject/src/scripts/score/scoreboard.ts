@@ -1,6 +1,3 @@
-// add score board logic
-
-import { foreachComponent } from "@needle-tools/engine";
 import { ButtonClickHandler } from "../buttons/ButtonClickHandler";
 import { ButtonEvent } from "../buttons/buttonEvents";
 import ScoreClient from "./score-client";

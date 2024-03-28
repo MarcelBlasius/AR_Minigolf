@@ -1,12 +1,10 @@
 import { Behaviour, Rigidbody, serializable, serializeable } from "@needle-tools/engine"
 import { Object3D, Vector3 } from "three";
-import { ScoreManager } from "./score/scoreManager";
 import { ButtonClickHandler } from "./buttons/ButtonClickHandler";
 import { ButtonEvent } from "./buttons/buttonEvents";
 import { SensorResetHandler } from "./sensor/SensorResetHandler";
 import { BallPositionClient } from "./ballposition/ballposition.client";
 import { BallPosition } from "./ballposition/ballposition.model";
-import { GetTranslatedBallPosition } from "./utils";
 
 export class ResetButton extends Behaviour {
   @serializeable(Object3D)
@@ -66,7 +64,7 @@ export class ResetButton extends Behaviour {
     const sessionId = urlParams.get('sessionId');
     const playerId = urlParams.get('playerId');
 
-     const ballposition: BallPosition = {
+    const ballposition: BallPosition = {
       id: null,
       sessionId: sessionId as string,
       player: playerId as string,

@@ -1,4 +1,4 @@
-import { Behaviour, Rigidbody, serializable } from "@needle-tools/engine";
+import { Behaviour, serializable } from "@needle-tools/engine";
 import { Object3D } from "three";
 
 export class DisplayedBallPosition extends Behaviour {
