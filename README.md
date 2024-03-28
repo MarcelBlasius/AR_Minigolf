@@ -37,6 +37,10 @@ The following chrome flags need to be adjusted:
 Firewall:
 * sometimes it is needed to adjust incoming rule to allow port 8080 in the firewall settings to access the database from the smartphone.
 
+Golfclub
+* create a WiFiCredentials.h file within the include folder of the ESP32Webserver folder. This file should define the WIFI_SSID which is the name of the WLAN the ESP should use and the WIFI_PASSWD which is the password of that WLAN.
+* now you can build the programm and upload it to your ESP-32.
+
 # Getting started
 * start the database with docker-compose up -d spring
 * open unity scene "AR Minigolf" and start it
